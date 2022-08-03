@@ -1,7 +1,7 @@
-// import ballerina/io;
 
-function getRevenueSummary(json revenue) returns json|error {
+function getSummary(json revenue, json cos) returns json|error {
 
+    json[] cosRows = [];
     json[] revenueRows = [];
     json[] gpRows = [];
     json[] gmRows = [];
@@ -47,6 +47,95 @@ function getRevenueSummary(json revenue) returns json|error {
     decimal cosNonRecurringTotalINTSW = 0.00;
     decimal cosNonRecurringTotalINTCL = 0.00;
     decimal cosNonRecurringTotalCorporate = 0.00;
+
+     foreach var item in <json[]>cos {
+  IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
+
+  if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
+            cosRecurringTotal += summaryObject.Amount;
+            if (summaryObject.BusinessUnit == BU_IAM) {
+                cosRecurringTotalIAM += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
+                summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+                cosRecurringTotalINTSW += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
+                cosRecurringTotalINTCL += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
+                cosRecurringTotalCorporate += summaryObject.Amount;
+            }
+        } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
+            cosNonRecurringTotal += summaryObject.Amount;               
+            if (summaryObject.BusinessUnit == BU_IAM) {
+                cosNonRecurringTotalIAM += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
+                summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+                cosNonRecurringTotalINTSW += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
+                cosNonRecurringTotalINTCL += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
+                cosNonRecurringTotalCorporate += summaryObject.Amount;
+            }             
+        } else if (summaryObject.AccountCategory == COS_CLOUD) {
+            cosCloudTotal += summaryObject.Amount;
+            if (summaryObject.BusinessUnit == BU_IAM) {
+                cosCloudTotalIAM += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
+                summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+                cosCloudTotalINTSW += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
+                cosCloudTotalINTCL += summaryObject.Amount;
+            } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
+                cosCloudTotalCorporate += summaryObject.Amount;
+            }
+        }
+
+     }
+
+     costOfSalesTotalIAM = cosRecurringTotalIAM + cosNonRecurringTotalIAM + cosCloudTotalIAM;
+    costOfSalesTotalINTSW = cosRecurringTotalINTSW + cosNonRecurringTotalINTSW + cosCloudTotalINTSW;
+    costOfSalesTotalINTCL = cosRecurringTotalINTCL + cosNonRecurringTotalINTCL + cosCloudTotalINTCL;
+    costOfSalesTotalCorporate = cosRecurringTotalCorporate + cosNonRecurringTotalCorporate + cosCloudTotalCorporate;
+
+    costOfSalesTotal = cosRecurringTotal + cosNonRecurringTotal + cosCloudTotal;
+
+    cosRows.push(
+        {
+            id: "1",
+            title: COS_HEADING_TITLE,
+            integration_cl: costOfSalesTotalINTCL,
+            integration_sw: costOfSalesTotalINTSW,
+            iam: costOfSalesTotalIAM,
+            corporate: costOfSalesTotalCorporate,
+            wso2: costOfSalesTotal
+        },
+        {
+            id: "2",
+            title: COS_RECURRING_TITLE,
+            integration_cl: cosRecurringTotalINTCL,
+            integration_sw: cosRecurringTotalINTSW,
+            iam: cosRecurringTotalIAM,
+            corporate: cosRecurringTotalCorporate,
+            wso2: cosRecurringTotal
+        },
+        {
+            id: "3",
+            title: COS_NON_RECURRING_TITLE,
+            integration_cl: cosNonRecurringTotalINTCL,
+            integration_sw: cosNonRecurringTotalINTSW,
+            iam: cosNonRecurringTotalIAM,
+            corporate: cosNonRecurringTotalCorporate,
+            wso2: cosNonRecurringTotal
+        },
+        {
+            id: "4",
+            title: COS_PUBLIC_CLOUD_TITLE,
+            integration_cl: cosCloudTotalINTCL,
+            integration_sw: cosCloudTotalINTSW,
+            iam: cosCloudTotalIAM,
+            corporate: cosCloudTotalCorporate,
+            wso2: cosCloudTotal
+        }
+    );
 
     foreach var item in <json[]>revenue {
 
@@ -227,6 +316,6 @@ function getRevenueSummary(json revenue) returns json|error {
     }
     );
 
-    return {revenue: revenueRows, grossProfit: gpRows, grossMargin: gmRows};
+    return {Revenue: revenueRows, CostOfSales:cosRows, GrossProfit: gpRows, GrossMargin: gmRows};
 
 }

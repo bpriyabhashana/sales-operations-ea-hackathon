@@ -35,6 +35,30 @@ function getIncomeRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) ret
 
 }
 
+function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
+    string directQuery = string `{
+                expense(filterCriteria: {
+                startDate : ${datePeriodFilterCriteria.startDate.toJsonString()},
+                endDate : ${datePeriodFilterCriteria.endDate.toJsonString()},
+            }) {    
+                 AccountType,
+                AccountCategory,
+                BusinessUnit,
+                Amount,
+            }
+        }`;
+
+    json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
+
+    if (response is json) {
+        return check response.data.expense;
+    } else {
+        return response;
+    }
+
+}
+
+
 public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
     if (revenue != 0d) {
         return (HUNDRED_PERCENT * (revenue - costOfSales) / revenue);
@@ -78,6 +102,17 @@ public isolated function getHTTPUnauthorizedResponse(error err, string msg) retu
             success: false,
             message: msg,
             'error: err.toString()
+        }
+
+    };
+}
+
+public isolated function getHTTPUnknownResponse(string msg) returns http:BadRequest {
+    return {
+        headers: getHeaders(),
+        body: {
+            success: false,
+            message: msg
         }
 
     };
