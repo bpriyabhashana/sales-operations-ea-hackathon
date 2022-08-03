@@ -227,6 +227,6 @@ function getRevenueSummary(json revenue) returns json|error {
     }
     );
 
-    return [revenueRows, gpRows, gmRows];
+    return {revenue: revenueRows, grossProfit: gpRows, grossMargin: gmRows};
 
 }

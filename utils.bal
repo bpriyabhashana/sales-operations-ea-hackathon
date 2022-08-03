@@ -35,7 +35,7 @@ function getIncomeRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) ret
 
 }
 
-public function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
+public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
     if (revenue != 0d) {
         return (HUNDRED_PERCENT * (revenue - costOfSales) / revenue);
     } else {
