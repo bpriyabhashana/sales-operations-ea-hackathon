@@ -48,10 +48,10 @@ function getSummary(json revenue, json cos) returns json|error {
     decimal cosNonRecurringTotalINTCL = 0.00;
     decimal cosNonRecurringTotalCorporate = 0.00;
 
-     foreach var item in <json[]>cos {
-  IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
+    foreach var item in <json[]>cos {
+        IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
 
-  if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
+        if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
             cosRecurringTotal += summaryObject.Amount;
             if (summaryObject.BusinessUnit == BU_IAM) {
                 cosRecurringTotalIAM += summaryObject.Amount;
@@ -64,7 +64,7 @@ function getSummary(json revenue, json cos) returns json|error {
                 cosRecurringTotalCorporate += summaryObject.Amount;
             }
         } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
-            cosNonRecurringTotal += summaryObject.Amount;               
+            cosNonRecurringTotal += summaryObject.Amount;
             if (summaryObject.BusinessUnit == BU_IAM) {
                 cosNonRecurringTotalIAM += summaryObject.Amount;
             } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
@@ -74,7 +74,7 @@ function getSummary(json revenue, json cos) returns json|error {
                 cosNonRecurringTotalINTCL += summaryObject.Amount;
             } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
                 cosNonRecurringTotalCorporate += summaryObject.Amount;
-            }             
+            }
         } else if (summaryObject.AccountCategory == COS_CLOUD) {
             cosCloudTotal += summaryObject.Amount;
             if (summaryObject.BusinessUnit == BU_IAM) {
@@ -89,9 +89,9 @@ function getSummary(json revenue, json cos) returns json|error {
             }
         }
 
-     }
+    }
 
-     costOfSalesTotalIAM = cosRecurringTotalIAM + cosNonRecurringTotalIAM + cosCloudTotalIAM;
+    costOfSalesTotalIAM = cosRecurringTotalIAM + cosNonRecurringTotalIAM + cosCloudTotalIAM;
     costOfSalesTotalINTSW = cosRecurringTotalINTSW + cosNonRecurringTotalINTSW + cosCloudTotalINTSW;
     costOfSalesTotalINTCL = cosRecurringTotalINTCL + cosNonRecurringTotalINTCL + cosCloudTotalINTCL;
     costOfSalesTotalCorporate = cosRecurringTotalCorporate + cosNonRecurringTotalCorporate + cosCloudTotalCorporate;
@@ -100,41 +100,41 @@ function getSummary(json revenue, json cos) returns json|error {
 
     cosRows.push(
         {
-            id: "1",
-            title: COS_HEADING_TITLE,
-            integration_cl: costOfSalesTotalINTCL,
-            integration_sw: costOfSalesTotalINTSW,
-            iam: costOfSalesTotalIAM,
-            corporate: costOfSalesTotalCorporate,
-            wso2: costOfSalesTotal
-        },
+        id: "1",
+        title: COS_HEADING_TITLE,
+        integration_cl: costOfSalesTotalINTCL,
+        integration_sw: costOfSalesTotalINTSW,
+        iam: costOfSalesTotalIAM,
+        corporate: costOfSalesTotalCorporate,
+        wso2: costOfSalesTotal
+    },
         {
-            id: "2",
-            title: COS_RECURRING_TITLE,
-            integration_cl: cosRecurringTotalINTCL,
-            integration_sw: cosRecurringTotalINTSW,
-            iam: cosRecurringTotalIAM,
-            corporate: cosRecurringTotalCorporate,
-            wso2: cosRecurringTotal
-        },
+        id: "2",
+        title: COS_RECURRING_TITLE,
+        integration_cl: cosRecurringTotalINTCL,
+        integration_sw: cosRecurringTotalINTSW,
+        iam: cosRecurringTotalIAM,
+        corporate: cosRecurringTotalCorporate,
+        wso2: cosRecurringTotal
+    },
         {
-            id: "3",
-            title: COS_NON_RECURRING_TITLE,
-            integration_cl: cosNonRecurringTotalINTCL,
-            integration_sw: cosNonRecurringTotalINTSW,
-            iam: cosNonRecurringTotalIAM,
-            corporate: cosNonRecurringTotalCorporate,
-            wso2: cosNonRecurringTotal
-        },
+        id: "3",
+        title: COS_NON_RECURRING_TITLE,
+        integration_cl: cosNonRecurringTotalINTCL,
+        integration_sw: cosNonRecurringTotalINTSW,
+        iam: cosNonRecurringTotalIAM,
+        corporate: cosNonRecurringTotalCorporate,
+        wso2: cosNonRecurringTotal
+    },
         {
-            id: "4",
-            title: COS_PUBLIC_CLOUD_TITLE,
-            integration_cl: cosCloudTotalINTCL,
-            integration_sw: cosCloudTotalINTSW,
-            iam: cosCloudTotalIAM,
-            corporate: cosCloudTotalCorporate,
-            wso2: cosCloudTotal
-        }
+        id: "4",
+        title: COS_PUBLIC_CLOUD_TITLE,
+        integration_cl: cosCloudTotalINTCL,
+        integration_sw: cosCloudTotalINTSW,
+        iam: cosCloudTotalIAM,
+        corporate: cosCloudTotalCorporate,
+        wso2: cosCloudTotal
+    }
     );
 
     foreach var item in <json[]>revenue {
@@ -316,6 +316,6 @@ function getSummary(json revenue, json cos) returns json|error {
     }
     );
 
-    return {Revenue: revenueRows, CostOfSales:cosRows, GrossProfit: gpRows, GrossMargin: gmRows};
+    return {Revenue: revenueRows, CostOfSales: cosRows, GrossProfit: gpRows, GrossMargin: gmRows};
 
 }

@@ -12,7 +12,7 @@ service /finance on new http:Listener(9090) {
     resource function post summary(http:Request request,
                                         @http:Payload json payload) returns http:Ok|http:BadRequest|error {
 
-                 return calculateSummary(payload);                           
+        return calculateSummary(payload);
 
     }
 }

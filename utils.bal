@@ -58,7 +58,6 @@ function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) re
 
 }
 
-
 public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
     if (revenue != 0d) {
         return (HUNDRED_PERCENT * (revenue - costOfSales) / revenue);
