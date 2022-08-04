@@ -82,7 +82,6 @@ function getSummaryPerBUPerMonth(MultipleDatePeriodsWithBURecordFilterCriteria p
 
 }
 
-
 function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[], json[], json[], json[]]|error {
 
     json[] revenueRows = [];
@@ -162,7 +161,7 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
         }
     );
 
-    } 
+    }
 
     json|error revenue = getIncomeRecords(payload.period);
 
@@ -280,6 +279,5 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
 
     }
 
-    
     return [revenueRows, cosRows, gpRows, gmRows];
 }
