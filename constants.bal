@@ -6,7 +6,7 @@ const API_OK_MSG_GENERAL = "Operation successful";
 const API_ERR_MSG_PAYLOAD_SOR_ERROR = "SOR Error";
 const API_ERR_MSG_PAYLOAD_UNAUTHORIZED_ERROR = "Authentication Failure";
 const API_ERR_MSG_PAYLOAD_MISSING_PARAMETERS = "Invalid payload: missing required parameters or type mismatch";
-const API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR = "Unknown Error";
+const API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR = "Error Occurred";
 
 # BU List
 const BU_ALL_WSO2 = "All";
