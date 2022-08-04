@@ -1,5 +1,7 @@
 import ballerina/http;
 
+// import ballerina/io;
+
 configurable string CHOREO_TOKEN_ENDPOINT = ?;
 configurable string CHOREO_CLIENT_ID = ?;
 configurable string CHOREO_CLIENT_SECRET = ?;
@@ -59,7 +61,10 @@ function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) re
 }
 
 public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
+    // io:println(revenue ," ", costOfSales);
+
     if (revenue != 0d) {
+        //  io:println(HUNDRED_PERCENT * (revenue - costOfSales) / revenue );
         return (HUNDRED_PERCENT * (revenue - costOfSales) / revenue);
     } else {
         return "N/A";

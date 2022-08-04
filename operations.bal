@@ -7,22 +7,22 @@ function calculateSummary(json payload) returns http:Ok|http:BadRequest|error {
     if (datePeriodFilterCriteria is DatePeriodFilterCriteria) {
 
         json|error revenue = getIncomeRecords(datePeriodFilterCriteria);
-        json|error cos = getExpenseRecords(datePeriodFilterCriteria);
+        json|error costOfSales = getExpenseRecords(datePeriodFilterCriteria);
 
-        if (revenue is json && cos is json) {
-            json|error revenueSummary = getSummary(revenue, cos);
+        if (revenue is json && costOfSales is json) {
+            json|error summary = getSummary(revenue, costOfSales);
 
-            if (revenueSummary is json) {
-                return getHTTPOkResponse(revenueSummary, API_OK_MSG_GENERAL);
+            if (summary is json) {
+                return getHTTPOkResponse(summary, API_OK_MSG_GENERAL);
             } else {
-                return getHTTPBadRequestResponse(revenueSummary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+                return getHTTPBadRequestResponse(summary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
             }
 
         } else if (revenue is error) {
             return getHTTPBadRequestResponse(revenue, API_ERR_MSG_PAYLOAD_SOR_ERROR);
         }
-                else if (cos is error) {
-            return getHTTPBadRequestResponse(cos, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+                else if (costOfSales is error) {
+            return getHTTPBadRequestResponse(costOfSales, API_ERR_MSG_PAYLOAD_SOR_ERROR);
         } else {
             return getHTTPUnknownResponse(API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR);
         }
@@ -30,4 +30,16 @@ function calculateSummary(json payload) returns http:Ok|http:BadRequest|error {
     } else {
         return getHTTPBadRequestResponse(datePeriodFilterCriteria, API_ERR_MSG_PAYLOAD_MISSING_PARAMETERS);
     }
+}
+
+function calculateRangeSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error summaryPerBUPerMonth = getSummaryPerBUPerMonth(payload);
+
+    if (summaryPerBUPerMonth is json) {
+        return getHTTPOkResponse(summaryPerBUPerMonth, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(summaryPerBUPerMonth, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+    }
+
 }
