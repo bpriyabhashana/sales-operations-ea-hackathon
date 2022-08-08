@@ -83,3 +83,15 @@ isolated function calculateCostOfSalesCloudSummary(DatePeriodFilterCriteria payl
     }
 
 }
+
+function calculateCOSRangeBUSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error summaryCOSRangeBUSummary = getSummaryCOSRangeBUSummary(payload);
+
+    if (summaryCOSRangeBUSummary is json) {
+        return getHTTPOkResponse(summaryCOSRangeBUSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(summaryCOSRangeBUSummary);
+    }
+
+}

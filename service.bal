@@ -58,4 +58,13 @@ service / on new http:Listener(9090) {
                                         returns http:Ok|http:BadRequest|error {
         return calculateCostOfSalesCloudSummary(payload);
     }
+
+    # A resource for generating greetings
+    # + payload - DatePeriodFilterCriteria (refer records.bal for more details)
+    # + return - formatted http response
+    resource function post finance/cossummary/range/bu(http:Request request,
+                                        @http:Payload MultipleDatePeriodsWithBURecordFilterCriteria payload)
+                                        returns http:Ok|http:BadRequest|error {
+        return calculateCOSRangeBUSummary(payload);
+    }
 }
