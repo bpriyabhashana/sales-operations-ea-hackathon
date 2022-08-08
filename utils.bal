@@ -60,6 +60,30 @@ function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) re
 
 }
 
+public isolated function getCostOfSalesRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
+    string directQuery = string `{
+                expenseCOS(filterCriteria: {
+                startDate : ${datePeriodFilterCriteria.startDate.toJsonString()},
+                endDate : ${datePeriodFilterCriteria.endDate.toJsonString()},
+            }) {    
+                 AccountType,
+                AccountCategory,
+                Type,
+                BusinessUnit,
+                Amount,
+            }
+        }`;
+
+    json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
+
+    if (response is json) {
+        return check response.data.expenseCOS;
+    } else {
+        return response;
+    }
+
+}
+
 public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
     // io:println(revenue ," ", costOfSales);
 

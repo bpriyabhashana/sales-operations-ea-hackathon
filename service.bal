@@ -10,7 +10,7 @@ service / on new http:Listener(9090) {
     # + payload - the request payload
     # + return - formatted http response
     resource function post finance/summary(http:Request request,
-                                        @http:Payload json payload) returns http:Ok|http:BadRequest|error {
+                                        @http:Payload DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
 
         return calculateSummary(payload);
 
@@ -23,6 +23,26 @@ service / on new http:Listener(9090) {
                                         @http:Payload MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
 
         return calculateRangeSummary(payload);
+
+    }
+
+    # A resource for generating greetings
+    # + payload - the request payload
+    # + return - formatted http response
+    resource function post finance/cossummary(http:Request request,
+                                        @http:Payload DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+        return calculateCostOfSalesSummary(payload);
+
+    }
+
+    # A resource for generating greetings
+    # + payload - the request payload
+    # + return - formatted http response
+    resource function post finance/cossummary/recurring(http:Request request,
+                                        @http:Payload DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+        return calculateCostOfSalesRecurringSummary(payload);
 
     }
 }

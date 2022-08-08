@@ -1,13 +1,12 @@
 import ballerina/http;
 
-function calculateSummary(json payload) returns http:Ok|http:BadRequest|error {
+function calculateSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
 
-    DatePeriodFilterCriteria|error datePeriodFilterCriteria = payload.cloneWithType(DatePeriodFilterCriteria);
 
-    if (datePeriodFilterCriteria is DatePeriodFilterCriteria) {
+    if (payload is DatePeriodFilterCriteria) {
 
-        json|error revenue = getIncomeRecords(datePeriodFilterCriteria);
-        json|error costOfSales = getExpenseRecords(datePeriodFilterCriteria);
+        json|error revenue = getIncomeRecords(payload);
+        json|error costOfSales = getExpenseRecords(payload);
 
         if (revenue is json && costOfSales is json) {
             json|error summary = getSummary(revenue, costOfSales);
@@ -27,8 +26,6 @@ function calculateSummary(json payload) returns http:Ok|http:BadRequest|error {
             return getHTTPUnknownResponse(API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR);
         }
 
-    } else {
-        return getHTTPBadRequestResponse(datePeriodFilterCriteria, API_ERR_MSG_PAYLOAD_MISSING_PARAMETERS);
     }
 }
 
@@ -40,6 +37,30 @@ function calculateRangeSummary(MultipleDatePeriodsWithBURecordFilterCriteria pay
         return getHTTPOkResponse(summaryPerBUPerMonth, API_OK_MSG_GENERAL);
     } else {
         return getHTTPBadRequestResponse(summaryPerBUPerMonth, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+    }
+
+}
+
+isolated function calculateCostOfSalesSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error costOfSalesSummary = getCostOfSalesSummary(payload);
+
+    if (costOfSalesSummary is json) {
+        return getHTTPOkResponse(costOfSalesSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(costOfSalesSummary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+    }
+
+}
+
+isolated function calculateCostOfSalesRecurringSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error costOfSalesRecurringSummary = getCostOfSalesRecurringSummary(payload);
+
+    if (costOfSalesRecurringSummary is json) {
+        return getHTTPOkResponse(costOfSalesRecurringSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(costOfSalesRecurringSummary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
     }
 
 }

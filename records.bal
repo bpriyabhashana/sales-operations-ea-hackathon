@@ -19,3 +19,11 @@ public type IncomeExpenseSummaryRecord record {
     string BusinessUnit;
     decimal Amount;
 };
+
+public type CostOfSalesSummaryRecord record {
+    string AccountType;
+    string AccountCategory;
+    string Type;
+    string BusinessUnit;
+    decimal Amount;
+};
