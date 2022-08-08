@@ -1,3 +1,5 @@
+// ------ filter criteria ------
+
 public type DatePeriodFilterCriteria record {
     string startDate;
     string endDate;
@@ -12,6 +14,8 @@ public type DatePeriodWithBURecord record {
     string businessUnit;
     DatePeriodFilterCriteria period;
 };
+
+// --------- record data ---------
 
 public type IncomeExpenseSummaryRecord record {
     string AccountType;

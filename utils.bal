@@ -1,7 +1,5 @@
 import ballerina/http;
 
-// import ballerina/io;
-
 configurable string CHOREO_TOKEN_ENDPOINT = ?;
 configurable string CHOREO_CLIENT_ID = ?;
 configurable string CHOREO_CLIENT_SECRET = ?;
@@ -34,7 +32,6 @@ function getIncomeRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) ret
     } else {
         return response;
     }
-
 }
 
 function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
@@ -57,7 +54,6 @@ function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) re
     } else {
         return response;
     }
-
 }
 
 public isolated function getCostOfSalesRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
@@ -81,7 +77,6 @@ public isolated function getCostOfSalesRecords(DatePeriodFilterCriteria datePeri
     } else {
         return response;
     }
-
 }
 
 public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
@@ -106,12 +101,10 @@ public isolated function getHTTPOkResponse(json result, string msg) returns http
     };
 }
 
-public isolated function getHTTPBadRequestResponse(error err, string msg) returns http:BadRequest {
+public isolated function getHTTPBadRequestResponse(error err) returns http:BadRequest {
     return {
         headers: getHeaders(),
         body: {
-            success: false,
-            message: msg,
             'error: err.toString()
         }
 

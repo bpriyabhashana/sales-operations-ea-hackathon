@@ -2,7 +2,6 @@ import ballerina/http;
 
 function calculateSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
 
-
     if (payload is DatePeriodFilterCriteria) {
 
         json|error revenue = getIncomeRecords(payload);
@@ -14,14 +13,13 @@ function calculateSummary(DatePeriodFilterCriteria payload) returns http:Ok|http
             if (summary is json) {
                 return getHTTPOkResponse(summary, API_OK_MSG_GENERAL);
             } else {
-                return getHTTPBadRequestResponse(summary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+                return getHTTPBadRequestResponse(summary);
             }
 
         } else if (revenue is error) {
-            return getHTTPBadRequestResponse(revenue, API_ERR_MSG_PAYLOAD_SOR_ERROR);
-        }
-                else if (costOfSales is error) {
-            return getHTTPBadRequestResponse(costOfSales, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+            return getHTTPBadRequestResponse(revenue);
+        } else if (costOfSales is error) {
+            return getHTTPBadRequestResponse(costOfSales);
         } else {
             return getHTTPUnknownResponse(API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR);
         }
@@ -36,7 +34,7 @@ function calculateRangeSummary(MultipleDatePeriodsWithBURecordFilterCriteria pay
     if (summaryPerBUPerMonth is json) {
         return getHTTPOkResponse(summaryPerBUPerMonth, API_OK_MSG_GENERAL);
     } else {
-        return getHTTPBadRequestResponse(summaryPerBUPerMonth, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+        return getHTTPBadRequestResponse(summaryPerBUPerMonth);
     }
 
 }
@@ -48,7 +46,7 @@ isolated function calculateCostOfSalesSummary(DatePeriodFilterCriteria payload) 
     if (costOfSalesSummary is json) {
         return getHTTPOkResponse(costOfSalesSummary, API_OK_MSG_GENERAL);
     } else {
-        return getHTTPBadRequestResponse(costOfSalesSummary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+        return getHTTPBadRequestResponse(costOfSalesSummary);
     }
 
 }
@@ -60,7 +58,31 @@ isolated function calculateCostOfSalesRecurringSummary(DatePeriodFilterCriteria 
     if (costOfSalesRecurringSummary is json) {
         return getHTTPOkResponse(costOfSalesRecurringSummary, API_OK_MSG_GENERAL);
     } else {
-        return getHTTPBadRequestResponse(costOfSalesRecurringSummary, API_ERR_MSG_PAYLOAD_SOR_ERROR);
+        return getHTTPBadRequestResponse(costOfSalesRecurringSummary);
+    }
+
+}
+
+isolated function calculateCostOfSalesNonRecurringSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error costOfSalesNonRecurringSummary = getCostOfSalesNonRecurringSummary(payload);
+
+    if (costOfSalesNonRecurringSummary is json) {
+        return getHTTPOkResponse(costOfSalesNonRecurringSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(costOfSalesNonRecurringSummary);
+    }
+
+}
+
+isolated function calculateCostOfSalesCloudSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error costOfSalesCloudSummary = getCostOfSalesCloudSummary(payload);
+
+    if (costOfSalesCloudSummary is json) {
+        return getHTTPOkResponse(costOfSalesCloudSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(costOfSalesCloudSummary);
     }
 
 }

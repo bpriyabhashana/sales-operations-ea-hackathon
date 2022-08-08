@@ -100,7 +100,6 @@ function getSummary(json revenue, json cos) returns json|error {
 
     cosRows.push(
         {
-        id: "1",
         title: COS_HEADING_TITLE,
         integration_cl: costOfSalesTotalINTCL,
         integration_sw: costOfSalesTotalINTSW,
@@ -109,7 +108,6 @@ function getSummary(json revenue, json cos) returns json|error {
         wso2: costOfSalesTotal
     },
         {
-        id: "2",
         title: COS_RECURRING_TITLE,
         integration_cl: cosRecurringTotalINTCL,
         integration_sw: cosRecurringTotalINTSW,
@@ -118,7 +116,6 @@ function getSummary(json revenue, json cos) returns json|error {
         wso2: cosRecurringTotal
     },
         {
-        id: "3",
         title: COS_NON_RECURRING_TITLE,
         integration_cl: cosNonRecurringTotalINTCL,
         integration_sw: cosNonRecurringTotalINTSW,
@@ -127,7 +124,6 @@ function getSummary(json revenue, json cos) returns json|error {
         wso2: cosNonRecurringTotal
     },
         {
-        id: "4",
         title: COS_PUBLIC_CLOUD_TITLE,
         integration_cl: cosCloudTotalINTCL,
         integration_sw: cosCloudTotalINTSW,
