@@ -1,14 +1,13 @@
 function getSummaryCOSRangeBUSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns json|error {
     do {
-            json[] cosRows = check calculateCosDetailsPerBUDateRange(payload,
-                                                         AC_CAT_ALL,
-                                                         COS_HEADING_TITLE);
-            return cosRows;
-        } on fail error err {
-            return err;
-        }
+        json[] cosRows = check calculateCosDetailsPerBUDateRange(payload,
+                                                        AC_CAT_ALL,
+                                                        COS_HEADING_TITLE);
+        return cosRows;
+    } on fail error err {
+        return err;
+    }
 }
-
 
 public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWithBURecordFilterCriteria payload,
                                                     string accountCategory,
@@ -39,26 +38,26 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
 
     foreach var period in payload.dateRange {
 
-   json[] cosRowsPeriod = [];
+        json[] cosRowsPeriod = [];
 
-    periodNo += 1;
+        periodNo += 1;
         var periodStr = "period" + periodNo.toString();
 
-        DatePeriodWithBURecord datePeriodWithBURecord = { 
+        DatePeriodWithBURecord datePeriodWithBURecord = {
             businessUnit: payload.businessUnit,
-            period: { 
+            period: {
                 startDate: period.startDate,
                 endDate: period.endDate
             }
         };
 
-    cosRowsPeriod = check getSummaryCosDetailsPerBUDateRange(datePeriodWithBURecord,
+        cosRowsPeriod = check getSummaryCosDetailsPerBUDateRange(datePeriodWithBURecord,
                                                                         accountCategory,
                                                                         cosSubLevelName);
 
-    dateRange[periodStr] = period.startDate + " " + period.endDate;
+        dateRange[periodStr] = period.startDate + " " + period.endDate;
 
-     cosTitle[periodStr] = check cosRowsPeriod[0].value;
+        cosTitle[periodStr] = check cosRowsPeriod[0].value;
         cosBonus[periodStr] = check cosRowsPeriod[1].value;
         cosConsultancy[periodStr] = check cosRowsPeriod[2].value;
         cosHR[periodStr] = check cosRowsPeriod[3].value;
@@ -73,11 +72,25 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
         cosTrainingNWelfare[periodStr] = check cosRowsPeriod[12].value;
         cosTravel[periodStr] = check cosRowsPeriod[13].value;
 
-    }     
-     cosRows = [cosTitle, cosBonus, cosConsultancy, cosHR, cosInfraIT, cosPartnerCommission, cosPassThroughExp,
-               cosPrograms, cosPublicCloud, cosRentNUtils, cosRoyalties, cosSWSupport, cosTrainingNWelfare, cosTravel];
+    }
+    cosRows = [
+        cosTitle,
+        cosBonus,
+        cosConsultancy,
+        cosHR,
+        cosInfraIT,
+        cosPartnerCommission,
+        cosPassThroughExp,
+        cosPrograms,
+        cosPublicCloud,
+        cosRentNUtils,
+        cosRoyalties,
+        cosSWSupport,
+        cosTrainingNWelfare,
+        cosTravel
+    ];
 
-               match accountCategory {
+    match accountCategory {
         AC_CAT_ALL => {
             valueJson = {
                 "COS_SUB_LEVEL": cosRows
@@ -106,15 +119,15 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
     });
 
     return mainJsonPayload;
-          
+
 }
 
 isolated function getSummaryCosDetailsPerBUDateRange(DatePeriodWithBURecord payload,
                                                     string accountCategory,
                                                     string cosSubLevelName) returns json[]|error {
 
-    json[] cosRows = []; 
-    
+    json[] cosRows = [];
+
     decimal cosTotalBU = 0.00;
     decimal cosBonusTotalBU = 0.00;
     decimal cosConsultancyTotalBU = 0.00;
@@ -132,156 +145,203 @@ isolated function getSummaryCosDetailsPerBUDateRange(DatePeriodWithBURecord payl
 
     json|error costOfSales = getCostOfSalesRecords(payload.period);
 
- if (costOfSales is json) {
-     foreach var item in <json[]>costOfSales {
-          CostOfSalesSummaryRecord summaryObject = check item.cloneWithType(CostOfSalesSummaryRecord);
+    if (costOfSales is json) {
+        foreach var item in <json[]>costOfSales {
+            CostOfSalesSummaryRecord summaryObject = check item.cloneWithType(CostOfSalesSummaryRecord);
 
-          if (accountCategory != AC_CAT_ALL) {
-              if (payload.businessUnit == BU_INTEGRATION_SW) {
-                if (summaryObject.AccountCategory == accountCategory && 
+            if (accountCategory != AC_CAT_ALL) {
+                if (payload.businessUnit == BU_INTEGRATION_SW) {
+                    if (summaryObject.AccountCategory == accountCategory &&
                     (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE)) {
-                    match summaryObject.Type {
-                        AC_SUB_CAT_BONUS => {
-                            cosBonusTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_CONSULTANCY => {
-                            cosConsultancyTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_HR => {
-                            cosHRTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_INFRA_IT => {
-                            cosInfraITTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PARTNER_COMMISSION => {
-                            cosPartnerCommTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PASSTHROUGH_EXP => {
-                            cosPassthroughExpTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PROGRAMS => {
-                            cosProgramsTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PUBLIC_CLOUD => {
+                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE)) {
+                        match summaryObject.Type {
+                            AC_SUB_CAT_BONUS => {
+                                cosBonusTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_CONSULTANCY => {
+                                cosConsultancyTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_HR => {
+                                cosHRTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_INFRA_IT => {
+                                cosInfraITTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PARTNER_COMMISSION => {
+                                cosPartnerCommTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PASSTHROUGH_EXP => {
+                                cosPassthroughExpTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PROGRAMS => {
+                                cosProgramsTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PUBLIC_CLOUD => {
                                 cosPublicCloudTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_RENT_UTILITIES => {
-                            cosRentNUtilTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_ROYALTIES => {
-                            cosRoyaltiesTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_SW_SUPPORT => {
-                            cosSWSupportTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAINING_WELFARE => {
-                            cosTrainingNWelfareTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAVEL => {
-                            cosTravelTotalBU += summaryObject.Amount;
-                        }
-                        // Not working
-                        // _ => {
-                        //     cosTotalBU += summaryObject.Amount;
-                        // }
-                    }
-                }
-            } else if (payload.businessUnit == BU_ALL_WSO2) {
-                if (summaryObject.AccountCategory == accountCategory) {
-                    match summaryObject.Type {
-                        AC_SUB_CAT_BONUS => {
-                            cosBonusTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_CONSULTANCY => {
-                            cosConsultancyTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_HR => {
-                            cosHRTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_INFRA_IT => {
-                            cosInfraITTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PARTNER_COMMISSION => {
-                            cosPartnerCommTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PASSTHROUGH_EXP => {
-                            cosPassthroughExpTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PROGRAMS => {
-                            cosProgramsTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PUBLIC_CLOUD => {
-                                cosPublicCloudTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_RENT_UTILITIES => {
-                            cosRentNUtilTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_ROYALTIES => {
-                            cosRoyaltiesTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_SW_SUPPORT => {
-                            cosSWSupportTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAINING_WELFARE => {
-                            cosTrainingNWelfareTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAVEL => {
-                            cosTravelTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_RENT_UTILITIES => {
+                                cosRentNUtilTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_ROYALTIES => {
+                                cosRoyaltiesTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_SW_SUPPORT => {
+                                cosSWSupportTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAINING_WELFARE => {
+                                cosTrainingNWelfareTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAVEL => {
+                                cosTravelTotalBU += summaryObject.Amount;
+                            }
+                            // Not working
+                            // _ => {
+                            //     cosTotalBU += summaryObject.Amount;
+                            // }
                         }
                     }
-                }
-            } else {
-                if (summaryObject.AccountCategory == accountCategory && 
+                } else if (payload.businessUnit == BU_ALL_WSO2) {
+                    if (summaryObject.AccountCategory == accountCategory) {
+                        match summaryObject.Type {
+                            AC_SUB_CAT_BONUS => {
+                                cosBonusTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_CONSULTANCY => {
+                                cosConsultancyTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_HR => {
+                                cosHRTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_INFRA_IT => {
+                                cosInfraITTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PARTNER_COMMISSION => {
+                                cosPartnerCommTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PASSTHROUGH_EXP => {
+                                cosPassthroughExpTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PROGRAMS => {
+                                cosProgramsTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PUBLIC_CLOUD => {
+                                cosPublicCloudTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_RENT_UTILITIES => {
+                                cosRentNUtilTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_ROYALTIES => {
+                                cosRoyaltiesTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_SW_SUPPORT => {
+                                cosSWSupportTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAINING_WELFARE => {
+                                cosTrainingNWelfareTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAVEL => {
+                                cosTravelTotalBU += summaryObject.Amount;
+                            }
+                        }
+                    }
+                } else {
+                    if (summaryObject.AccountCategory == accountCategory &&
                     summaryObject.BusinessUnit == payload.businessUnit) {
-                    match summaryObject.Type {
-                        AC_SUB_CAT_BONUS => {
-                            cosBonusTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_CONSULTANCY => {
-                            cosConsultancyTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_HR => {
-                            cosHRTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_INFRA_IT => {
-                            cosInfraITTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PARTNER_COMMISSION => {
-                            cosPartnerCommTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PASSTHROUGH_EXP => {
-                            cosPassthroughExpTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PROGRAMS => {
-                            cosProgramsTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PUBLIC_CLOUD => {
+                        match summaryObject.Type {
+                            AC_SUB_CAT_BONUS => {
+                                cosBonusTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_CONSULTANCY => {
+                                cosConsultancyTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_HR => {
+                                cosHRTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_INFRA_IT => {
+                                cosInfraITTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PARTNER_COMMISSION => {
+                                cosPartnerCommTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PASSTHROUGH_EXP => {
+                                cosPassthroughExpTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PROGRAMS => {
+                                cosProgramsTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PUBLIC_CLOUD => {
                                 cosPublicCloudTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_RENT_UTILITIES => {
-                            cosRentNUtilTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_ROYALTIES => {
-                            cosRoyaltiesTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_SW_SUPPORT => {
-                            cosSWSupportTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAINING_WELFARE => {
-                            cosTrainingNWelfareTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAVEL => {
-                            cosTravelTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_RENT_UTILITIES => {
+                                cosRentNUtilTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_ROYALTIES => {
+                                cosRoyaltiesTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_SW_SUPPORT => {
+                                cosSWSupportTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAINING_WELFARE => {
+                                cosTrainingNWelfareTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAVEL => {
+                                cosTravelTotalBU += summaryObject.Amount;
+                            }
                         }
                     }
                 }
             }
-          }
-          else {
-            if (payload.businessUnit == BU_INTEGRATION_SW) {
-                if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
+        else {
+                if (payload.businessUnit == BU_INTEGRATION_SW) {
+                    if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+                        match summaryObject.Type {
+                            AC_SUB_CAT_BONUS => {
+                                cosBonusTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_CONSULTANCY => {
+                                cosConsultancyTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_HR => {
+                                cosHRTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_INFRA_IT => {
+                                cosInfraITTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PARTNER_COMMISSION => {
+                                cosPartnerCommTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PASSTHROUGH_EXP => {
+                                cosPassthroughExpTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PROGRAMS => {
+                                cosProgramsTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PUBLIC_CLOUD => {
+                                cosPublicCloudTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_RENT_UTILITIES => {
+                                cosRentNUtilTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_ROYALTIES => {
+                                cosRoyaltiesTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_SW_SUPPORT => {
+                                cosSWSupportTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAINING_WELFARE => {
+                                cosTrainingNWelfareTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAVEL => {
+                                cosTravelTotalBU += summaryObject.Amount;
+                            }
+                            // Not working
+                            // _ => {
+                            //     cosTotalBU += summaryObject.Amount;
+                            // }
+                        }
+                    }
+                } else if (payload.businessUnit == BU_ALL_WSO2) {
                     match summaryObject.Type {
                         AC_SUB_CAT_BONUS => {
                             cosBonusTotalBU += summaryObject.Amount;
@@ -305,7 +365,7 @@ isolated function getSummaryCosDetailsPerBUDateRange(DatePeriodWithBURecord payl
                             cosProgramsTotalBU += summaryObject.Amount;
                         }
                         AC_SUB_CAT_PUBLIC_CLOUD => {
-                                cosPublicCloudTotalBU += summaryObject.Amount;
+                            cosPublicCloudTotalBU += summaryObject.Amount;
                         }
                         AC_SUB_CAT_RENT_UTILITIES => {
                             cosRentNUtilTotalBU += summaryObject.Amount;
@@ -327,111 +387,64 @@ isolated function getSummaryCosDetailsPerBUDateRange(DatePeriodWithBURecord payl
                         //     cosTotalBU += summaryObject.Amount;
                         // }
                     }
-                }
-            } else if (payload.businessUnit == BU_ALL_WSO2) {
-                match summaryObject.Type {
-                    AC_SUB_CAT_BONUS => {
-                        cosBonusTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_CONSULTANCY => {
-                        cosConsultancyTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_HR => {
-                        cosHRTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_INFRA_IT => {
-                        cosInfraITTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_PARTNER_COMMISSION => {
-                        cosPartnerCommTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_PASSTHROUGH_EXP => {
-                        cosPassthroughExpTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_PROGRAMS => {
-                        cosProgramsTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_PUBLIC_CLOUD => {
-                            cosPublicCloudTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_RENT_UTILITIES => {
-                        cosRentNUtilTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_ROYALTIES => {
-                        cosRoyaltiesTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_SW_SUPPORT => {
-                        cosSWSupportTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_TRAINING_WELFARE => {
-                        cosTrainingNWelfareTotalBU += summaryObject.Amount;
-                    }
-                    AC_SUB_CAT_TRAVEL => {
-                        cosTravelTotalBU += summaryObject.Amount;
-                    }
-                    // Not working
-                    // _ => {
-                    //     cosTotalBU += summaryObject.Amount;
-                    // }
-                }
-            } else {
-                if (summaryObject.BusinessUnit == payload.businessUnit) {
-                    match summaryObject.Type {
-                        AC_SUB_CAT_BONUS => {
-                            cosBonusTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_CONSULTANCY => {
-                            cosConsultancyTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_HR => {
-                            cosHRTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_INFRA_IT => {
-                            cosInfraITTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PARTNER_COMMISSION => {
-                            cosPartnerCommTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PASSTHROUGH_EXP => {
-                            cosPassthroughExpTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PROGRAMS => {
-                            cosProgramsTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_PUBLIC_CLOUD => {
+                } else {
+                    if (summaryObject.BusinessUnit == payload.businessUnit) {
+                        match summaryObject.Type {
+                            AC_SUB_CAT_BONUS => {
+                                cosBonusTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_CONSULTANCY => {
+                                cosConsultancyTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_HR => {
+                                cosHRTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_INFRA_IT => {
+                                cosInfraITTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PARTNER_COMMISSION => {
+                                cosPartnerCommTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PASSTHROUGH_EXP => {
+                                cosPassthroughExpTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PROGRAMS => {
+                                cosProgramsTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_PUBLIC_CLOUD => {
                                 cosPublicCloudTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_RENT_UTILITIES => {
+                                cosRentNUtilTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_ROYALTIES => {
+                                cosRoyaltiesTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_SW_SUPPORT => {
+                                cosSWSupportTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAINING_WELFARE => {
+                                cosTrainingNWelfareTotalBU += summaryObject.Amount;
+                            }
+                            AC_SUB_CAT_TRAVEL => {
+                                cosTravelTotalBU += summaryObject.Amount;
+                            }
+                            // Not working
+                            // _ => {
+                            //     cosTotalBU += nsCOSSumResp.amount;
+                            // }
                         }
-                        AC_SUB_CAT_RENT_UTILITIES => {
-                            cosRentNUtilTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_ROYALTIES => {
-                            cosRoyaltiesTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_SW_SUPPORT => {
-                            cosSWSupportTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAINING_WELFARE => {
-                            cosTrainingNWelfareTotalBU += summaryObject.Amount;
-                        }
-                        AC_SUB_CAT_TRAVEL => {
-                            cosTravelTotalBU += summaryObject.Amount;
-                        }
-                        // Not working
-                        // _ => {
-                        //     cosTotalBU += nsCOSSumResp.amount;
-                        // }
                     }
                 }
             }
+
         }
 
-     }
-
-     cosTotalBU += cosBonusTotalBU + cosConsultancyTotalBU + cosHRTotalBU + cosInfraITTotalBU + cosPartnerCommTotalBU +
-        cosPassthroughExpTotalBU + cosProgramsTotalBU + cosPublicCloudTotalBU + cosRentNUtilTotalBU + 
+        cosTotalBU += cosBonusTotalBU + cosConsultancyTotalBU + cosHRTotalBU + cosInfraITTotalBU + cosPartnerCommTotalBU +
+        cosPassthroughExpTotalBU + cosProgramsTotalBU + cosPublicCloudTotalBU + cosRentNUtilTotalBU +
         cosRoyaltiesTotalBU + cosSWSupportTotalBU + cosTrainingNWelfareTotalBU + cosTravelTotalBU;
 
-     cosRows.push(
+        cosRows.push(
         {
             id: "0",
             title: cosSubLevelName,
@@ -503,7 +516,7 @@ isolated function getSummaryCosDetailsPerBUDateRange(DatePeriodWithBURecord payl
             value: cosTravelTotalBU
         }
     );
-    
- }
-return cosRows;
+
+    }
+    return cosRows;
 }
