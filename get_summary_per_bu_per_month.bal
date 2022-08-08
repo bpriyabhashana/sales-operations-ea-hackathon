@@ -105,9 +105,20 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
         foreach var item in <json[]>costOfSales {
             IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
 
-            if (payload.businessUnit == BU_INTEGRATION_SW) {
-                if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+            match payload.businessUnit {
+                BU_INTEGRATION_SW => {
+                    if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
+                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+                        if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
+                            cosRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
+                            cosNonRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == COS_CLOUD) {
+                            cosCloudTotalBU += summaryObject.Amount;
+                        }
+                    }
+                }
+                BU_ALL_WSO2 => {
                     if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
                         cosRecurringTotalBU += summaryObject.Amount;
                     } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
@@ -116,22 +127,15 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
                         cosCloudTotalBU += summaryObject.Amount;
                     }
                 }
-            } else if (payload.businessUnit == BU_ALL_WSO2) {
-                if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
-                    cosRecurringTotalBU += summaryObject.Amount;
-                } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
-                    cosNonRecurringTotalBU += summaryObject.Amount;
-                } else if (summaryObject.AccountCategory == COS_CLOUD) {
-                    cosCloudTotalBU += summaryObject.Amount;
-                }
-            } else {
-                if (summaryObject.BusinessUnit == payload.businessUnit) {
-                    if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
-                        cosRecurringTotalBU += summaryObject.Amount;
-                    } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
-                        cosNonRecurringTotalBU += summaryObject.Amount;
-                    } else if (summaryObject.AccountCategory == COS_CLOUD) {
-                        cosCloudTotalBU += summaryObject.Amount;
+                _ => {
+                    if (summaryObject.BusinessUnit == payload.businessUnit) {
+                        if (summaryObject.AccountCategory == COS_RECURRING_REVENUE) {
+                            cosRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == COS_NON_RECURRING_REVENUE) {
+                            cosNonRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == COS_CLOUD) {
+                            cosCloudTotalBU += summaryObject.Amount;
+                        }
                     }
                 }
             }
@@ -170,9 +174,20 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
         foreach var item in <json[]>revenue {
             IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
 
-            if (payload.businessUnit == BU_INTEGRATION_SW) {
-                if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+            match payload.businessUnit {
+                BU_INTEGRATION_SW => {
+                    if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
+                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
+                        if (summaryObject.AccountCategory == REVENUE_RECURRING) {
+                            revenueRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == REVENUE_NON_RECURRING) {
+                            revenueNonRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == REVENUE_CLOUD) {
+                            revenueCloudTotalBU += summaryObject.Amount;
+                        }
+                    }
+                }
+                BU_ALL_WSO2 => {
                     if (summaryObject.AccountCategory == REVENUE_RECURRING) {
                         revenueRecurringTotalBU += summaryObject.Amount;
                     } else if (summaryObject.AccountCategory == REVENUE_NON_RECURRING) {
@@ -181,27 +196,19 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
                         revenueCloudTotalBU += summaryObject.Amount;
                     }
                 }
-            } else if (payload.businessUnit == BU_ALL_WSO2) {
-                if (summaryObject.AccountCategory == REVENUE_RECURRING) {
-                    revenueRecurringTotalBU += summaryObject.Amount;
-                } else if (summaryObject.AccountCategory == REVENUE_NON_RECURRING) {
-                    revenueNonRecurringTotalBU += summaryObject.Amount;
-                } else if (summaryObject.AccountCategory == REVENUE_CLOUD) {
-                    revenueCloudTotalBU += summaryObject.Amount;
+                _ => {
+                    if (summaryObject.BusinessUnit == payload.businessUnit) {
+                        if (summaryObject.AccountCategory == REVENUE_RECURRING) {
+                            revenueRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == REVENUE_NON_RECURRING) {
+                            revenueNonRecurringTotalBU += summaryObject.Amount;
+                        } else if (summaryObject.AccountCategory == REVENUE_CLOUD) {
+                            revenueCloudTotalBU += summaryObject.Amount;
+                        }
+                    }
                 }
-            } else {
 
-                if (summaryObject.BusinessUnit == payload.businessUnit) {
-                    if (summaryObject.AccountCategory == REVENUE_RECURRING) {
-                        revenueRecurringTotalBU += summaryObject.Amount;
-                    } else if (summaryObject.AccountCategory == REVENUE_NON_RECURRING) {
-                        revenueNonRecurringTotalBU += summaryObject.Amount;
-                    } else if (summaryObject.AccountCategory == REVENUE_CLOUD) {
-                        revenueCloudTotalBU += summaryObject.Amount;
-                    }
-                }
             }
-
         }
 
         revenueTotalBU = revenueRecurringTotalBU + revenueNonRecurringTotalBU + revenueCloudTotalBU;

@@ -2,29 +2,26 @@ import ballerina/http;
 
 function calculateSummary(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
 
-    if (payload is DatePeriodFilterCriteria) {
+    json|error revenue = getIncomeRecords(payload);
+    json|error costOfSales = getExpenseRecords(payload);
 
-        json|error revenue = getIncomeRecords(payload);
-        json|error costOfSales = getExpenseRecords(payload);
+    if (revenue is json && costOfSales is json) {
+        json|error summary = getSummary(revenue, costOfSales);
 
-        if (revenue is json && costOfSales is json) {
-            json|error summary = getSummary(revenue, costOfSales);
-
-            if (summary is json) {
-                return getHTTPOkResponse(summary, API_OK_MSG_GENERAL);
-            } else {
-                return getHTTPBadRequestResponse(summary);
-            }
-
-        } else if (revenue is error) {
-            return getHTTPBadRequestResponse(revenue);
-        } else if (costOfSales is error) {
-            return getHTTPBadRequestResponse(costOfSales);
+        if (summary is json) {
+            return getHTTPOkResponse(summary, API_OK_MSG_GENERAL);
         } else {
-            return getHTTPUnknownResponse(API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR);
+            return getHTTPBadRequestResponse(summary);
         }
 
+    } else if (revenue is error) {
+        return getHTTPBadRequestResponse(revenue);
+    } else if (costOfSales is error) {
+        return getHTTPBadRequestResponse(costOfSales);
+    } else {
+        return getHTTPUnknownResponse(API_ERR_MSG_PAYLOAD_UNKNOWN_ERROR);
     }
+
 }
 
 function calculateRangeSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
