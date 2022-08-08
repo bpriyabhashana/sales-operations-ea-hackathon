@@ -78,12 +78,7 @@ public isolated function getHeaders() returns map<string> {
 public isolated function getHTTPOkResponse(json result, string msg) returns http:Ok {
     return {
         headers: getHeaders(),
-        body: {
-            success: true,
-            message: msg,
-            data: result
-        }
-
+        body: result
     };
 }
 
