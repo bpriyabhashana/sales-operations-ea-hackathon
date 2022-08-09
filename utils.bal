@@ -107,7 +107,6 @@ public isolated function getHTTPBadRequestResponse(error err) returns http:BadRe
         body: {
             'error: err.toString()
         }
-
     };
 }
 
@@ -119,7 +118,6 @@ public isolated function getHTTPUnauthorizedResponse(error err, string msg) retu
             message: msg,
             'error: err.toString()
         }
-
     };
 }
 
@@ -130,13 +128,19 @@ public isolated function getHTTPUnknownResponse(string msg) returns http:BadRequ
             success: false,
             message: msg
         }
-
     };
 }
 
 public isolated function formatArray(json[] array) returns json[]|error {
+    foreach int i in 1 ..< array.length()+1 {
+        array[i-1] = check array[i-1].mergeJson({id: i.toString()});
+    }
+    return array;
+}
+
+public isolated function formatRangeArray(json[] array) returns json[]|error {
     foreach int i in 0 ..< array.length() {
-        array[i] = check array[i].mergeJson({id: i});
+        array[i] = check array[i].mergeJson({id: i.toString()});
     }
     return array;
 }

@@ -106,7 +106,7 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
         cosTravel[periodStr] = check cosRowsPeriod[13].value;
 
     }
-    cosRows = check formatArray([
+    cosRows = check formatRangeArray([
         cosTitle,
         cosBonus,
         cosConsultancy,

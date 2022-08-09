@@ -15,17 +15,17 @@ function getSummaryPerBUPerMonth(MultipleDatePeriodsWithBURecordFilterCriteria p
     map<json> cosPublicCloud = {title: COS_PUBLIC_CLOUD_TITLE};
 
     map<json> revenueTotal = {title: REVENUE_HEADING_TITLE};
-    map<json> revenueRecurring = { title: REVENUE_RECURRING_TITLE};
+    map<json> revenueRecurring = {title: REVENUE_RECURRING_TITLE};
     map<json> revenueNonRecurring = {title: REVENUE_NON_RECURRING_TITLE};
     map<json> revenueCloud = {title: REVENUE_CLOUD_TITLE};
 
     map<json> gpTotal = {title: GP_HEADING_TITLE};
-    map<json> gpRecurring = { title: GP_RECURRING_TITLE};
+    map<json> gpRecurring = {title: GP_RECURRING_TITLE};
     map<json> gpNonRecurring = {title: GP_NON_RECURRING_TITLE};
     map<json> gpPublicCloud = {title: GP_PUBLIC_CLOUD_TITLE};
 
     map<json> gmTotal = {title: GM_HEADING_TITLE};
-    map<json> gmRecurring = { title: GM_RECURRING_TITLE};
+    map<json> gmRecurring = {title: GM_RECURRING_TITLE};
     map<json> gmNonRecurring = {title: GM_NON_RECURRING_TITLE};
     map<json> gmPublicCloud = {title: GM_PUBLIC_CLOUD_TITLE};
 
@@ -73,7 +73,7 @@ function getSummaryPerBUPerMonth(MultipleDatePeriodsWithBURecordFilterCriteria p
         gmPublicCloud[periodStr] = check gmRowsPeriod[3].value;
 
     }
-    cosRows = check formatArray( [cosTotal, cosRecurring, cosNonRecurring, cosPublicCloud]);
+    cosRows = check formatArray([cosTotal, cosRecurring, cosNonRecurring, cosPublicCloud]);
     revenueRows = check formatArray([revenueTotal, revenueRecurring, revenueNonRecurring, revenueCloud]);
     gpRows = check formatArray([gpTotal, gpRecurring, gpNonRecurring, gpPublicCloud]);
     gmRows = check formatArray([gmTotal, gmRecurring, gmNonRecurring, gmPublicCloud]);
@@ -228,7 +228,6 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
         }
     );
 
-        // Gross Profit calculations -> Revenue - Cost of Sales
         gpRows.push(
         {
             title: GP_HEADING_TITLE,
@@ -248,7 +247,6 @@ function getSummaryPerBUDateRange(DatePeriodWithBURecord payload) returns [json[
         }
     );
 
-        // Gross Margin calculations -> Gross Profit / Revenue
         gmRows.push(
         {
             title: GM_HEADING_TITLE,

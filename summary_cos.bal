@@ -845,121 +845,121 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
         cosPublicCloudCorporate + cosRentNUtilCorporate + cosRoyaltiesCorporate + cosSWSupportCorporate +
         cosTrainingNWelfareCorporate + cosTravelCorporate;
 
-cosRows = check formatArray([
-        {
-            title: cosSubLevelName,
-            integration_cl: cosTotalINTCL,
-            integration_sw: cosTotalINTSW,
-            iam: cosTotalIAM,
-            corporate: cosTotalCorporate,
-            wso2: cosTotal
-        },
-        {
-            title: AC_SUB_CAT_BONUS,
-            integration_cl: cosBonusINTCL,
-            integration_sw: cosBonusINTSW,
-            iam: cosBonusIAM,
-            corporate: cosBonusCorporate,
-            wso2: cosBonusTotal
-        },
-        {
-            title: AC_SUB_CAT_CONSULTANCY,
-            integration_cl: cosConsultancyINTCL,
-            integration_sw: cosConsultancyINTSW,
-            iam: cosConsultancyIAM,
-            corporate: cosConsultancyCorporate,
-            wso2: cosConsultancyTotal
-        },
-        {
-            title: AC_SUB_CAT_HR,
-            integration_cl: cosHRINTCL,
-            integration_sw: cosHRINTSW,
-            iam: cosHRIAM,
-            corporate: cosHRCorporate,
-            wso2: cosHRTotal
-        },
-        {
-            title: AC_SUB_CAT_INFRA_IT,
-            integration_cl: cosInfraITINTCL,
-            integration_sw: cosInfraITINTSW,
-            iam: cosInfraITIAM,
-            corporate: cosInfraITCorporate,
-            wso2: cosInfraITTotal
-        },
-        {
-            title: AC_SUB_CAT_PARTNER_COMMISSION,
-            integration_cl: cosPartnerCommINTCL,
-            integration_sw: cosPartnerCommINTSW,
-            iam: cosPartnerCommIAM,
-            corporate: cosPartnerCommCorporate,
-            wso2: cosPartnerCommTotal
-        },
-        {
-            title: AC_SUB_CAT_PASSTHROUGH_EXP,
-            integration_cl: cosPassthroughExpINTCL,
-            integration_sw: cosPassthroughExpINTSW,
-            iam: cosPassthroughExpIAM,
-            corporate: cosPassthroughExpCorporate,
-            wso2: cosPassthroughExpTotal
-        },
-        {
-            title: AC_SUB_CAT_PROGRAMS,
-            integration_cl: cosProgramsINTCL,
-            integration_sw: cosProgramsINTSW,
-            iam: cosProgramsIAM,
-            corporate: cosProgramsCorporate,
-            wso2: cosProgramsTotal
-        },
-        {
-            title: AC_SUB_CAT_PUBLIC_CLOUD,
-            integration_cl: cosPublicCloudINTCL,
-            integration_sw: cosPublicCloudINTSW,
-            iam: cosPublicCloudIAM,
-            corporate: cosPublicCloudCorporate,
-            wso2: cosPublicCloudTotal
-        },
-        {
-            title: AC_SUB_CAT_RENT_UTILITIES,
-            integration_cl: cosRentNUtilINTCL,
-            integration_sw: cosRentNUtilINTSW,
-            iam: cosRentNUtilIAM,
-            corporate: cosRentNUtilCorporate,
-            wso2: cosRentNUtilTotal
-        },
-        {
-            title: AC_SUB_CAT_ROYALTIES,
-            integration_cl: cosRoyaltiesINTCL,
-            integration_sw: cosRoyaltiesINTSW,
-            iam: cosRoyaltiesIAM,
-            corporate: cosRoyaltiesCorporate,
-            wso2: cosRoyaltiesTotal
-        },
-        {
-            title: AC_SUB_CAT_SW_SUPPORT,
-            integration_cl: cosSWSupportINTCL,
-            integration_sw: cosSWSupportINTSW,
-            iam: cosSWSupportIAM,
-            corporate: cosSWSupportCorporate,
-            wso2: cosSWSupportTotal
-        },
-        {
-            title: AC_SUB_CAT_TRAINING_WELFARE,
-            integration_cl: cosTrainingNWelfareINTCL,
-            integration_sw: cosTrainingNWelfareINTSW,
-            iam: cosTrainingNWelfareIAM,
-            corporate: cosTrainingNWelfareCorporate,
-            wso2: cosTrainingNWelfareTotal
-        },
-        {
-            title: AC_SUB_CAT_TRAVEL,
-            integration_cl: cosTravelINTCL,
-            integration_sw: cosTravelINTSW,
-            iam: cosTravelIAM,
-            corporate: cosTravelCorporate,
-            wso2: cosTravelTotal
-        }
-]);
- 
+        cosRows = check formatRangeArray([
+            {
+                title: cosSubLevelName,
+                integration_cl: cosTotalINTCL,
+                integration_sw: cosTotalINTSW,
+                iam: cosTotalIAM,
+                corporate: cosTotalCorporate,
+                wso2: cosTotal
+            },
+            {
+                title: AC_SUB_CAT_BONUS,
+                integration_cl: cosBonusINTCL,
+                integration_sw: cosBonusINTSW,
+                iam: cosBonusIAM,
+                corporate: cosBonusCorporate,
+                wso2: cosBonusTotal
+            },
+            {
+                title: AC_SUB_CAT_CONSULTANCY,
+                integration_cl: cosConsultancyINTCL,
+                integration_sw: cosConsultancyINTSW,
+                iam: cosConsultancyIAM,
+                corporate: cosConsultancyCorporate,
+                wso2: cosConsultancyTotal
+            },
+            {
+                title: AC_SUB_CAT_HR,
+                integration_cl: cosHRINTCL,
+                integration_sw: cosHRINTSW,
+                iam: cosHRIAM,
+                corporate: cosHRCorporate,
+                wso2: cosHRTotal
+            },
+            {
+                title: AC_SUB_CAT_INFRA_IT,
+                integration_cl: cosInfraITINTCL,
+                integration_sw: cosInfraITINTSW,
+                iam: cosInfraITIAM,
+                corporate: cosInfraITCorporate,
+                wso2: cosInfraITTotal
+            },
+            {
+                title: AC_SUB_CAT_PARTNER_COMMISSION,
+                integration_cl: cosPartnerCommINTCL,
+                integration_sw: cosPartnerCommINTSW,
+                iam: cosPartnerCommIAM,
+                corporate: cosPartnerCommCorporate,
+                wso2: cosPartnerCommTotal
+            },
+            {
+                title: AC_SUB_CAT_PASSTHROUGH_EXP,
+                integration_cl: cosPassthroughExpINTCL,
+                integration_sw: cosPassthroughExpINTSW,
+                iam: cosPassthroughExpIAM,
+                corporate: cosPassthroughExpCorporate,
+                wso2: cosPassthroughExpTotal
+            },
+            {
+                title: AC_SUB_CAT_PROGRAMS,
+                integration_cl: cosProgramsINTCL,
+                integration_sw: cosProgramsINTSW,
+                iam: cosProgramsIAM,
+                corporate: cosProgramsCorporate,
+                wso2: cosProgramsTotal
+            },
+            {
+                title: AC_SUB_CAT_PUBLIC_CLOUD,
+                integration_cl: cosPublicCloudINTCL,
+                integration_sw: cosPublicCloudINTSW,
+                iam: cosPublicCloudIAM,
+                corporate: cosPublicCloudCorporate,
+                wso2: cosPublicCloudTotal
+            },
+            {
+                title: AC_SUB_CAT_RENT_UTILITIES,
+                integration_cl: cosRentNUtilINTCL,
+                integration_sw: cosRentNUtilINTSW,
+                iam: cosRentNUtilIAM,
+                corporate: cosRentNUtilCorporate,
+                wso2: cosRentNUtilTotal
+            },
+            {
+                title: AC_SUB_CAT_ROYALTIES,
+                integration_cl: cosRoyaltiesINTCL,
+                integration_sw: cosRoyaltiesINTSW,
+                iam: cosRoyaltiesIAM,
+                corporate: cosRoyaltiesCorporate,
+                wso2: cosRoyaltiesTotal
+            },
+            {
+                title: AC_SUB_CAT_SW_SUPPORT,
+                integration_cl: cosSWSupportINTCL,
+                integration_sw: cosSWSupportINTSW,
+                iam: cosSWSupportIAM,
+                corporate: cosSWSupportCorporate,
+                wso2: cosSWSupportTotal
+            },
+            {
+                title: AC_SUB_CAT_TRAINING_WELFARE,
+                integration_cl: cosTrainingNWelfareINTCL,
+                integration_sw: cosTrainingNWelfareINTSW,
+                iam: cosTrainingNWelfareIAM,
+                corporate: cosTrainingNWelfareCorporate,
+                wso2: cosTrainingNWelfareTotal
+            },
+            {
+                title: AC_SUB_CAT_TRAVEL,
+                integration_cl: cosTravelINTCL,
+                integration_sw: cosTravelINTSW,
+                iam: cosTravelIAM,
+                corporate: cosTravelCorporate,
+                wso2: cosTravelTotal
+            }
+        ]);
+
         return cosRows;
 
     } else {
