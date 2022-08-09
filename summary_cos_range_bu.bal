@@ -9,6 +9,39 @@ function getSummaryCOSRangeBUSummary(MultipleDatePeriodsWithBURecordFilterCriter
     }
 }
 
+function getSummaryCOSRangeBURecurringSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns json|error {
+    do {
+        json[] cosRows = check calculateCosDetailsPerBUDateRange(payload,
+                                                        COS_RECURRING_REVENUE,
+                                                        COS_RECURRING_TITLE);
+        return cosRows;
+    } on fail error err {
+        return err;
+    }
+}
+
+function getSummaryCOSRangeBUNonRecurringSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns json|error {
+    do {
+        json[] cosRows = check calculateCosDetailsPerBUDateRange(payload,
+                                                        COS_NON_RECURRING_REVENUE,
+                                                        COS_NON_RECURRING_TITLE);
+        return cosRows;
+    } on fail error err {
+        return err;
+    }
+}
+
+function getSummaryCOSRangeBUCloudSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns json|error {
+    do {
+        json[] cosRows = check calculateCosDetailsPerBUDateRange(payload,
+                                                        COS_CLOUD,
+                                                        COS_PUBLIC_CLOUD_TITLE);
+        return cosRows;
+    } on fail error err {
+        return err;
+    }
+}
+
 public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWithBURecordFilterCriteria payload,
                                                     string accountCategory,
                                                     string cosSubLevelName) returns json[]|error {
@@ -17,20 +50,20 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
     json[] cosRows = [];
     json valueJson = {};
 
-    map<json> cosTitle = {id: "0", title: cosSubLevelName};
-    map<json> cosBonus = {id: "1", title: AC_SUB_CAT_BONUS};
-    map<json> cosConsultancy = {id: "2", title: AC_SUB_CAT_CONSULTANCY};
-    map<json> cosHR = {id: "3", title: AC_SUB_CAT_HR};
-    map<json> cosInfraIT = {id: "4", title: AC_SUB_CAT_INFRA_IT};
-    map<json> cosPartnerCommission = {id: "5", title: AC_SUB_CAT_PARTNER_COMMISSION};
-    map<json> cosPassThroughExp = {id: "6", title: AC_SUB_CAT_PASSTHROUGH_EXP};
-    map<json> cosPrograms = {id: "7", title: AC_SUB_CAT_PROGRAMS};
-    map<json> cosPublicCloud = {id: "8", title: AC_SUB_CAT_PUBLIC_CLOUD};
-    map<json> cosRentNUtils = {id: "9", title: AC_SUB_CAT_RENT_UTILITIES};
-    map<json> cosRoyalties = {id: "10", title: AC_SUB_CAT_ROYALTIES};
-    map<json> cosSWSupport = {id: "11", title: AC_SUB_CAT_SW_SUPPORT};
-    map<json> cosTrainingNWelfare = {id: "12", title: AC_SUB_CAT_TRAINING_WELFARE};
-    map<json> cosTravel = {id: "13", title: AC_SUB_CAT_TRAVEL};
+    map<json> cosTitle = {title: cosSubLevelName};
+    map<json> cosBonus = {title: AC_SUB_CAT_BONUS};
+    map<json> cosConsultancy = {title: AC_SUB_CAT_CONSULTANCY};
+    map<json> cosHR = {title: AC_SUB_CAT_HR};
+    map<json> cosInfraIT = {title: AC_SUB_CAT_INFRA_IT};
+    map<json> cosPartnerCommission = {title: AC_SUB_CAT_PARTNER_COMMISSION};
+    map<json> cosPassThroughExp = {title: AC_SUB_CAT_PASSTHROUGH_EXP};
+    map<json> cosPrograms = {title: AC_SUB_CAT_PROGRAMS};
+    map<json> cosPublicCloud = {title: AC_SUB_CAT_PUBLIC_CLOUD};
+    map<json> cosRentNUtils = {title: AC_SUB_CAT_RENT_UTILITIES};
+    map<json> cosRoyalties = {title: AC_SUB_CAT_ROYALTIES};
+    map<json> cosSWSupport = {title: AC_SUB_CAT_SW_SUPPORT};
+    map<json> cosTrainingNWelfare = {title: AC_SUB_CAT_TRAINING_WELFARE};
+    map<json> cosTravel = {title: AC_SUB_CAT_TRAVEL};
 
     int periodNo = 0;
 
@@ -73,7 +106,7 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
         cosTravel[periodStr] = check cosRowsPeriod[13].value;
 
     }
-    cosRows = [
+    cosRows = check formatArray([
         cosTitle,
         cosBonus,
         cosConsultancy,
@@ -88,7 +121,7 @@ public isolated function calculateCosDetailsPerBUDateRange(MultipleDatePeriodsWi
         cosSWSupport,
         cosTrainingNWelfare,
         cosTravel
-    ];
+    ]);
 
     match accountCategory {
         AC_CAT_ALL => {
@@ -446,72 +479,58 @@ isolated function getSummaryCosDetailsPerBUDateRange(DatePeriodWithBURecord payl
 
         cosRows.push(
         {
-            id: "0",
             title: cosSubLevelName,
             value: cosTotalBU
         },
         {
-            id: "1",
             title: AC_SUB_CAT_BONUS,
             value: cosBonusTotalBU
         },
         {
-            id: "2",
             title: AC_SUB_CAT_CONSULTANCY,
             value: cosConsultancyTotalBU
         },
         {
-            id: "3",
             title: AC_SUB_CAT_HR,
             value: cosHRTotalBU
         },
         {
-            id: "4",
             title: AC_SUB_CAT_INFRA_IT,
             value: cosInfraITTotalBU
         },
         {
-            id: "5",
             title: AC_SUB_CAT_PARTNER_COMMISSION,
             value: cosPartnerCommTotalBU
         },
         {
-            id: "6",
             title: AC_SUB_CAT_PASSTHROUGH_EXP,
             value: cosPassthroughExpTotalBU
         },
         {
-            id: "7",
             title: AC_SUB_CAT_PROGRAMS,
             value: cosProgramsTotalBU
         },
         {
-            id: "8",
             title: AC_SUB_CAT_PUBLIC_CLOUD,
             value: cosPublicCloudTotalBU
         },
         {
-            id: "9",
             title: AC_SUB_CAT_RENT_UTILITIES,
             value: cosRentNUtilTotalBU
         },
         {
-            id: "10",
             title: AC_SUB_CAT_ROYALTIES,
             value: cosRoyaltiesTotalBU
         },
         {
-            id: "11",
             title: AC_SUB_CAT_SW_SUPPORT,
             value: cosSWSupportTotalBU
         },
         {
-            id: "12",
             title: AC_SUB_CAT_TRAINING_WELFARE,
             value: cosTrainingNWelfareTotalBU
         },
         {
-            id: "13",
             title: AC_SUB_CAT_TRAVEL,
             value: cosTravelTotalBU
         }

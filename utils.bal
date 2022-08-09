@@ -133,3 +133,10 @@ public isolated function getHTTPUnknownResponse(string msg) returns http:BadRequ
 
     };
 }
+
+public isolated function formatArray(json[] array) returns json[]|error {
+    foreach int i in 0 ..< array.length() {
+        array[i] = check array[i].mergeJson({id: i});
+    }
+    return array;
+}

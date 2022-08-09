@@ -95,3 +95,39 @@ function calculateCOSRangeBUSummary(MultipleDatePeriodsWithBURecordFilterCriteri
     }
 
 }
+
+function calculateCOSRangeBURecurringSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error summaryCOSRangeBUSummary = getSummaryCOSRangeBURecurringSummary(payload);
+
+    if (summaryCOSRangeBUSummary is json) {
+        return getHTTPOkResponse(summaryCOSRangeBUSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(summaryCOSRangeBUSummary);
+    }
+
+}
+
+function calculateCOSRangeBUNonRecurringSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error summaryCOSRangeBUSummary = getSummaryCOSRangeBUNonRecurringSummary(payload);
+
+    if (summaryCOSRangeBUSummary is json) {
+        return getHTTPOkResponse(summaryCOSRangeBUSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(summaryCOSRangeBUSummary);
+    }
+
+}
+
+function calculateCOSRangeBUCloudSummary(MultipleDatePeriodsWithBURecordFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json|error summaryCOSRangeBUSummary = getSummaryCOSRangeBUCloudSummary(payload);
+
+    if (summaryCOSRangeBUSummary is json) {
+        return getHTTPOkResponse(summaryCOSRangeBUSummary, API_OK_MSG_GENERAL);
+    } else {
+        return getHTTPBadRequestResponse(summaryCOSRangeBUSummary);
+    }
+
+}

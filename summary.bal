@@ -1,4 +1,3 @@
-
 function getSummary(json revenue, json cos) returns json|error {
 
     json[] cosRows = [];
@@ -101,40 +100,40 @@ function getSummary(json revenue, json cos) returns json|error {
 
     costOfSalesTotal = cosRecurringTotal + cosNonRecurringTotal + cosCloudTotal;
 
-    cosRows.push(
+    cosRows = check formatArray([
         {
-        title: COS_HEADING_TITLE,
-        integration_cl: costOfSalesTotalINTCL,
-        integration_sw: costOfSalesTotalINTSW,
-        iam: costOfSalesTotalIAM,
-        corporate: costOfSalesTotalCorporate,
-        wso2: costOfSalesTotal
-    },
+            title: COS_HEADING_TITLE,
+            integration_cl: costOfSalesTotalINTCL,
+            integration_sw: costOfSalesTotalINTSW,
+            iam: costOfSalesTotalIAM,
+            corporate: costOfSalesTotalCorporate,
+            wso2: costOfSalesTotal
+        },
         {
-        title: COS_RECURRING_TITLE,
-        integration_cl: cosRecurringTotalINTCL,
-        integration_sw: cosRecurringTotalINTSW,
-        iam: cosRecurringTotalIAM,
-        corporate: cosRecurringTotalCorporate,
-        wso2: cosRecurringTotal
-    },
+            title: COS_RECURRING_TITLE,
+            integration_cl: cosRecurringTotalINTCL,
+            integration_sw: cosRecurringTotalINTSW,
+            iam: cosRecurringTotalIAM,
+            corporate: cosRecurringTotalCorporate,
+            wso2: cosRecurringTotal
+        },
         {
-        title: COS_NON_RECURRING_TITLE,
-        integration_cl: cosNonRecurringTotalINTCL,
-        integration_sw: cosNonRecurringTotalINTSW,
-        iam: cosNonRecurringTotalIAM,
-        corporate: cosNonRecurringTotalCorporate,
-        wso2: cosNonRecurringTotal
-    },
+            title: COS_NON_RECURRING_TITLE,
+            integration_cl: cosNonRecurringTotalINTCL,
+            integration_sw: cosNonRecurringTotalINTSW,
+            iam: cosNonRecurringTotalIAM,
+            corporate: cosNonRecurringTotalCorporate,
+            wso2: cosNonRecurringTotal
+        },
         {
-        title: COS_PUBLIC_CLOUD_TITLE,
-        integration_cl: cosCloudTotalINTCL,
-        integration_sw: cosCloudTotalINTSW,
-        iam: cosCloudTotalIAM,
-        corporate: cosCloudTotalCorporate,
-        wso2: cosCloudTotal
-    }
-    );
+            title: COS_PUBLIC_CLOUD_TITLE,
+            integration_cl: cosCloudTotalINTCL,
+            integration_sw: cosCloudTotalINTSW,
+            iam: cosCloudTotalIAM,
+            corporate: cosCloudTotalCorporate,
+            wso2: cosCloudTotal
+        }
+    ]);
 
     foreach var item in <json[]>revenue {
 
@@ -202,122 +201,112 @@ function getSummary(json revenue, json cos) returns json|error {
 
     revenueTotal = revenueRecurringTotal + revenueNonRecurringTotal + revenueCloudTotal;
 
-    revenueRows.push(
+    revenueRows = check formatArray(
+        [
         {
-        id: "1",
-        title: REVENUE_HEADING_TITLE,
-        integration_cl: revenueTotalINTCL,
-        integration_sw: revenueTotalINTSW,
-        iam: revenueTotalIAM,
-        corporate: revenueTotalCorporate,
-        wso2: revenueTotal
-    },
+            title: REVENUE_HEADING_TITLE,
+            integration_cl: revenueTotalINTCL,
+            integration_sw: revenueTotalINTSW,
+            iam: revenueTotalIAM,
+            corporate: revenueTotalCorporate,
+            wso2: revenueTotal
+        },
         {
-        id: "2",
-        title: REVENUE_RECURRING_TITLE,
-        integration_cl: revenueRecurringTotalINTCL,
-        integration_sw: revenueRecurringTotalINTSW,
-        iam: revenueRecurringTotalIAM,
-        corporate: revenueRecurringTotalCorporate,
-        wso2: revenueRecurringTotal
-    },
+            title: REVENUE_RECURRING_TITLE,
+            integration_cl: revenueRecurringTotalINTCL,
+            integration_sw: revenueRecurringTotalINTSW,
+            iam: revenueRecurringTotalIAM,
+            corporate: revenueRecurringTotalCorporate,
+            wso2: revenueRecurringTotal
+        },
         {
-        id: "3",
-        title: REVENUE_NON_RECURRING_TITLE,
-        integration_cl: revenueNonRecurringTotalINTCL,
-        integration_sw: revenueNonRecurringTotalINTSW,
-        iam: revenueNonRecurringTotalIAM,
-        corporate: revenueNonRecurringTotalCorporate,
-        wso2: revenueNonRecurringTotal
-    },
+            title: REVENUE_NON_RECURRING_TITLE,
+            integration_cl: revenueNonRecurringTotalINTCL,
+            integration_sw: revenueNonRecurringTotalINTSW,
+            iam: revenueNonRecurringTotalIAM,
+            corporate: revenueNonRecurringTotalCorporate,
+            wso2: revenueNonRecurringTotal
+        },
         {
-        id: "4",
-        title: REVENUE_CLOUD_TITLE,
-        integration_cl: revenueCloudTotalINTCL,
-        integration_sw: revenueCloudTotalINTSW,
-        iam: revenueCloudTotalIAM,
-        corporate: revenueCloudTotalCorporate,
-        wso2: revenueCloudTotal
-    }
+            title: REVENUE_CLOUD_TITLE,
+            integration_cl: revenueCloudTotalINTCL,
+            integration_sw: revenueCloudTotalINTSW,
+            iam: revenueCloudTotalIAM,
+            corporate: revenueCloudTotalCorporate,
+            wso2: revenueCloudTotal
+        }
+    ]
     );
 
-    gpRows.push(
+    gpRows = check formatArray([
         {
-        id: "1",
-        title: GP_HEADING_TITLE,
-        integration_cl: revenueTotalINTCL - costOfSalesTotalINTCL,
-        integration_sw: revenueTotalINTSW - costOfSalesTotalINTSW,
-        iam: revenueTotalIAM - costOfSalesTotalIAM,
-        corporate: revenueTotalCorporate - costOfSalesTotalCorporate,
-        wso2: revenueTotal - costOfSalesTotal
-    },
+            title: GP_HEADING_TITLE,
+            integration_cl: revenueTotalINTCL - costOfSalesTotalINTCL,
+            integration_sw: revenueTotalINTSW - costOfSalesTotalINTSW,
+            iam: revenueTotalIAM - costOfSalesTotalIAM,
+            corporate: revenueTotalCorporate - costOfSalesTotalCorporate,
+            wso2: revenueTotal - costOfSalesTotal
+        },
         {
-        id: "2",
-        title: GP_RECURRING_TITLE,
-        integration_cl: revenueRecurringTotalINTCL - cosRecurringTotalINTCL,
-        integration_sw: revenueRecurringTotalINTSW - cosRecurringTotalINTSW,
-        iam: revenueRecurringTotalIAM - cosRecurringTotalIAM,
-        corporate: revenueRecurringTotalCorporate - cosRecurringTotalCorporate,
-        wso2: revenueRecurringTotal - cosRecurringTotal
-    },
+            title: GP_RECURRING_TITLE,
+            integration_cl: revenueRecurringTotalINTCL - cosRecurringTotalINTCL,
+            integration_sw: revenueRecurringTotalINTSW - cosRecurringTotalINTSW,
+            iam: revenueRecurringTotalIAM - cosRecurringTotalIAM,
+            corporate: revenueRecurringTotalCorporate - cosRecurringTotalCorporate,
+            wso2: revenueRecurringTotal - cosRecurringTotal
+        },
         {
-        id: "3",
-        title: GP_NON_RECURRING_TITLE,
-        integration_cl: revenueNonRecurringTotalINTCL - cosNonRecurringTotalINTCL,
-        integration_sw: revenueNonRecurringTotalINTSW - cosNonRecurringTotalINTSW,
-        iam: revenueNonRecurringTotalIAM - cosNonRecurringTotalIAM,
-        corporate: revenueNonRecurringTotalCorporate - cosNonRecurringTotalCorporate,
-        wso2: revenueNonRecurringTotal - cosNonRecurringTotal
-    },
+            title: GP_NON_RECURRING_TITLE,
+            integration_cl: revenueNonRecurringTotalINTCL - cosNonRecurringTotalINTCL,
+            integration_sw: revenueNonRecurringTotalINTSW - cosNonRecurringTotalINTSW,
+            iam: revenueNonRecurringTotalIAM - cosNonRecurringTotalIAM,
+            corporate: revenueNonRecurringTotalCorporate - cosNonRecurringTotalCorporate,
+            wso2: revenueNonRecurringTotal - cosNonRecurringTotal
+        },
         {
-        id: "4",
-        title: GP_PUBLIC_CLOUD_TITLE,
-        integration_cl: revenueCloudTotalINTCL - cosCloudTotalINTCL,
-        integration_sw: revenueCloudTotalINTSW - cosCloudTotalINTSW,
-        iam: revenueCloudTotalIAM - cosCloudTotalIAM,
-        corporate: revenueCloudTotalCorporate - cosCloudTotalCorporate,
-        wso2: revenueCloudTotal - cosCloudTotal
-    }
-    );
+            title: GP_PUBLIC_CLOUD_TITLE,
+            integration_cl: revenueCloudTotalINTCL - cosCloudTotalINTCL,
+            integration_sw: revenueCloudTotalINTSW - cosCloudTotalINTSW,
+            iam: revenueCloudTotalIAM - cosCloudTotalIAM,
+            corporate: revenueCloudTotalCorporate - cosCloudTotalCorporate,
+            wso2: revenueCloudTotal - cosCloudTotal
+        }
+    ]);
 
-    gmRows.push(
+    gmRows = check formatArray([
         {
-        id: "1",
-        title: GM_HEADING_TITLE,
-        integration_cl: calculateGrossMargin(revenueTotalINTCL, costOfSalesTotalINTCL),
-        integration_sw: calculateGrossMargin(revenueTotalINTSW, costOfSalesTotalINTSW),
-        iam: calculateGrossMargin(revenueTotalIAM, costOfSalesTotalIAM),
-        corporate: calculateGrossMargin(revenueTotalCorporate, costOfSalesTotalCorporate),
-        wso2: calculateGrossMargin(revenueTotal, costOfSalesTotal)
-    },
+            title: GM_HEADING_TITLE,
+            integration_cl: calculateGrossMargin(revenueTotalINTCL, costOfSalesTotalINTCL),
+            integration_sw: calculateGrossMargin(revenueTotalINTSW, costOfSalesTotalINTSW),
+            iam: calculateGrossMargin(revenueTotalIAM, costOfSalesTotalIAM),
+            corporate: calculateGrossMargin(revenueTotalCorporate, costOfSalesTotalCorporate),
+            wso2: calculateGrossMargin(revenueTotal, costOfSalesTotal)
+        },
         {
-        id: "2",
-        title: GM_RECURRING_TITLE,
-        integration_cl: calculateGrossMargin(revenueRecurringTotalINTCL, cosRecurringTotalINTCL),
-        integration_sw: calculateGrossMargin(revenueRecurringTotalINTSW, cosRecurringTotalINTSW),
-        iam: calculateGrossMargin(revenueRecurringTotalIAM, cosRecurringTotalIAM),
-        corporate: calculateGrossMargin(revenueRecurringTotalCorporate, cosRecurringTotalCorporate),
-        wso2: calculateGrossMargin(revenueRecurringTotal, cosRecurringTotal)
-    },
+            title: GM_RECURRING_TITLE,
+            integration_cl: calculateGrossMargin(revenueRecurringTotalINTCL, cosRecurringTotalINTCL),
+            integration_sw: calculateGrossMargin(revenueRecurringTotalINTSW, cosRecurringTotalINTSW),
+            iam: calculateGrossMargin(revenueRecurringTotalIAM, cosRecurringTotalIAM),
+            corporate: calculateGrossMargin(revenueRecurringTotalCorporate, cosRecurringTotalCorporate),
+            wso2: calculateGrossMargin(revenueRecurringTotal, cosRecurringTotal)
+        },
         {
-        id: "3",
-        title: GM_NON_RECURRING_TITLE,
-        integration_cl: calculateGrossMargin(revenueNonRecurringTotalINTCL, cosNonRecurringTotalINTCL),
-        integration_sw: calculateGrossMargin(revenueNonRecurringTotalINTSW, cosNonRecurringTotalINTSW),
-        iam: calculateGrossMargin(revenueNonRecurringTotalIAM, cosNonRecurringTotalIAM),
-        corporate: calculateGrossMargin(revenueNonRecurringTotalCorporate, cosNonRecurringTotalCorporate),
-        wso2: calculateGrossMargin(revenueNonRecurringTotal, cosNonRecurringTotal)
-    },
+            title: GM_NON_RECURRING_TITLE,
+            integration_cl: calculateGrossMargin(revenueNonRecurringTotalINTCL, cosNonRecurringTotalINTCL),
+            integration_sw: calculateGrossMargin(revenueNonRecurringTotalINTSW, cosNonRecurringTotalINTSW),
+            iam: calculateGrossMargin(revenueNonRecurringTotalIAM, cosNonRecurringTotalIAM),
+            corporate: calculateGrossMargin(revenueNonRecurringTotalCorporate, cosNonRecurringTotalCorporate),
+            wso2: calculateGrossMargin(revenueNonRecurringTotal, cosNonRecurringTotal)
+        },
         {
-        id: "4",
-        title: GM_PUBLIC_CLOUD_TITLE,
-        integration_cl: calculateGrossMargin(revenueCloudTotalINTCL, cosCloudTotalINTCL),
-        integration_sw: calculateGrossMargin(revenueCloudTotalINTSW, cosCloudTotalINTSW),
-        iam: calculateGrossMargin(revenueCloudTotalIAM, cosCloudTotalIAM),
-        corporate: calculateGrossMargin(revenueCloudTotalCorporate, cosCloudTotalCorporate),
-        wso2: calculateGrossMargin(revenueCloudTotal, cosCloudTotal)
-    }
-    );
+            title: GM_PUBLIC_CLOUD_TITLE,
+            integration_cl: calculateGrossMargin(revenueCloudTotalINTCL, cosCloudTotalINTCL),
+            integration_sw: calculateGrossMargin(revenueCloudTotalINTSW, cosCloudTotalINTSW),
+            iam: calculateGrossMargin(revenueCloudTotalIAM, cosCloudTotalIAM),
+            corporate: calculateGrossMargin(revenueCloudTotalCorporate, cosCloudTotalCorporate),
+            wso2: calculateGrossMargin(revenueCloudTotal, cosCloudTotal)
+        }
+    ]);
 
     return {Revenue: revenueRows, CostOfSales: cosRows, GrossProfit: gpRows, GrossMargin: gmRows};
 

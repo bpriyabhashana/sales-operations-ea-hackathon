@@ -845,9 +845,8 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
         cosPublicCloudCorporate + cosRentNUtilCorporate + cosRoyaltiesCorporate + cosSWSupportCorporate +
         cosTrainingNWelfareCorporate + cosTravelCorporate;
 
-        cosRows.push(
+cosRows = check formatArray([
         {
-            id: "0",
             title: cosSubLevelName,
             integration_cl: cosTotalINTCL,
             integration_sw: cosTotalINTSW,
@@ -856,7 +855,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosTotal
         },
         {
-            id: "1",
             title: AC_SUB_CAT_BONUS,
             integration_cl: cosBonusINTCL,
             integration_sw: cosBonusINTSW,
@@ -865,7 +863,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosBonusTotal
         },
         {
-            id: "2",
             title: AC_SUB_CAT_CONSULTANCY,
             integration_cl: cosConsultancyINTCL,
             integration_sw: cosConsultancyINTSW,
@@ -874,7 +871,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosConsultancyTotal
         },
         {
-            id: "3",
             title: AC_SUB_CAT_HR,
             integration_cl: cosHRINTCL,
             integration_sw: cosHRINTSW,
@@ -883,7 +879,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosHRTotal
         },
         {
-            id: "4",
             title: AC_SUB_CAT_INFRA_IT,
             integration_cl: cosInfraITINTCL,
             integration_sw: cosInfraITINTSW,
@@ -892,7 +887,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosInfraITTotal
         },
         {
-            id: "5",
             title: AC_SUB_CAT_PARTNER_COMMISSION,
             integration_cl: cosPartnerCommINTCL,
             integration_sw: cosPartnerCommINTSW,
@@ -901,7 +895,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosPartnerCommTotal
         },
         {
-            id: "6",
             title: AC_SUB_CAT_PASSTHROUGH_EXP,
             integration_cl: cosPassthroughExpINTCL,
             integration_sw: cosPassthroughExpINTSW,
@@ -909,8 +902,7 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             corporate: cosPassthroughExpCorporate,
             wso2: cosPassthroughExpTotal
         },
-                        {
-            id: "7",
+        {
             title: AC_SUB_CAT_PROGRAMS,
             integration_cl: cosProgramsINTCL,
             integration_sw: cosProgramsINTSW,
@@ -919,7 +911,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosProgramsTotal
         },
         {
-            id: "8",
             title: AC_SUB_CAT_PUBLIC_CLOUD,
             integration_cl: cosPublicCloudINTCL,
             integration_sw: cosPublicCloudINTSW,
@@ -928,7 +919,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosPublicCloudTotal
         },
         {
-            id: "9",
             title: AC_SUB_CAT_RENT_UTILITIES,
             integration_cl: cosRentNUtilINTCL,
             integration_sw: cosRentNUtilINTSW,
@@ -937,7 +927,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosRentNUtilTotal
         },
         {
-            id: "10",
             title: AC_SUB_CAT_ROYALTIES,
             integration_cl: cosRoyaltiesINTCL,
             integration_sw: cosRoyaltiesINTSW,
@@ -946,7 +935,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosRoyaltiesTotal
         },
         {
-            id: "11",
             title: AC_SUB_CAT_SW_SUPPORT,
             integration_cl: cosSWSupportINTCL,
             integration_sw: cosSWSupportINTSW,
@@ -955,7 +943,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosSWSupportTotal
         },
         {
-            id: "12",
             title: AC_SUB_CAT_TRAINING_WELFARE,
             integration_cl: cosTrainingNWelfareINTCL,
             integration_sw: cosTrainingNWelfareINTSW,
@@ -964,7 +951,6 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             wso2: cosTrainingNWelfareTotal
         },
         {
-            id: "13",
             title: AC_SUB_CAT_TRAVEL,
             integration_cl: cosTravelINTCL,
             integration_sw: cosTravelINTSW,
@@ -972,7 +958,8 @@ public isolated function getCoSSummaryForGivenAccountCategory(DatePeriodFilterCr
             corporate: cosTravelCorporate,
             wso2: cosTravelTotal
         }
-    );
+]);
+ 
         return cosRows;
 
     } else {
