@@ -1,4 +1,4 @@
-function getSummary(json revenue, json cos) returns json|error {
+function calculateBalance(json revenue, json cos) returns json|error {
 
     json[] cosRows = [];
     json[] revenueRows = [];

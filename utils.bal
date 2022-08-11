@@ -50,7 +50,7 @@ public isolated function getHeaders() returns map<string> {
     return {"Access-Control-Allow-Origin": "*"};
 }
 
-public isolated function getHTTPOkResponse(json result, string msg) returns http:Ok {
+public isolated function getHTTPOkResponse(json result) returns http:Ok {
     return {
         headers: getHeaders(),
         body: result
