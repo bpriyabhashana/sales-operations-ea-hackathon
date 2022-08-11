@@ -52,42 +52,42 @@ function getSummary(json revenue, json cos) returns json|error {
 
         match summaryObject.AccountCategory {
             COS_RECURRING_REVENUE => {
-                cosRecurringTotal += summaryObject.Amount;
+                cosRecurringTotal += summaryObject.Balance;
                 if (summaryObject.BusinessUnit == BU_IAM) {
-                    cosRecurringTotalIAM += summaryObject.Amount;
+                    cosRecurringTotalIAM += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    cosRecurringTotalINTSW += summaryObject.Amount;
+                    cosRecurringTotalINTSW += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    cosRecurringTotalINTCL += summaryObject.Amount;
+                    cosRecurringTotalINTCL += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    cosRecurringTotalCorporate += summaryObject.Amount;
+                    cosRecurringTotalCorporate += summaryObject.Balance;
                 }
             }
             COS_NON_RECURRING_REVENUE => {
-                cosNonRecurringTotal += summaryObject.Amount;
+                cosNonRecurringTotal += summaryObject.Balance;
                 if (summaryObject.BusinessUnit == BU_IAM) {
-                    cosNonRecurringTotalIAM += summaryObject.Amount;
+                    cosNonRecurringTotalIAM += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    cosNonRecurringTotalINTSW += summaryObject.Amount;
+                    cosNonRecurringTotalINTSW += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    cosNonRecurringTotalINTCL += summaryObject.Amount;
+                    cosNonRecurringTotalINTCL += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    cosNonRecurringTotalCorporate += summaryObject.Amount;
+                    cosNonRecurringTotalCorporate += summaryObject.Balance;
                 }
             }
             COS_CLOUD => {
-                cosCloudTotal += summaryObject.Amount;
+                cosCloudTotal += summaryObject.Balance;
                 if (summaryObject.BusinessUnit == BU_IAM) {
-                    cosCloudTotalIAM += summaryObject.Amount;
+                    cosCloudTotalIAM += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    cosCloudTotalINTSW += summaryObject.Amount;
+                    cosCloudTotalINTSW += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    cosCloudTotalINTCL += summaryObject.Amount;
+                    cosCloudTotalINTCL += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    cosCloudTotalCorporate += summaryObject.Amount;
+                    cosCloudTotalCorporate += summaryObject.Balance;
                 }
             }
         }
@@ -141,54 +141,54 @@ function getSummary(json revenue, json cos) returns json|error {
 
         match summaryObject.AccountCategory {
             REVENUE_RECURRING => {
-                revenueRecurringTotal += summaryObject.Amount;
+                revenueRecurringTotal += summaryObject.Balance;
                 if (summaryObject.BusinessUnit == BU_IAM) {
-                    revenueTotalIAM += summaryObject.Amount;
-                    revenueRecurringTotalIAM += summaryObject.Amount;
+                    revenueTotalIAM += summaryObject.Balance;
+                    revenueRecurringTotalIAM += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    revenueTotalINTSW += summaryObject.Amount;
-                    revenueRecurringTotalINTSW += summaryObject.Amount;
+                    revenueTotalINTSW += summaryObject.Balance;
+                    revenueRecurringTotalINTSW += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    revenueTotalINTCL += summaryObject.Amount;
-                    revenueRecurringTotalINTCL += summaryObject.Amount;
+                    revenueTotalINTCL += summaryObject.Balance;
+                    revenueRecurringTotalINTCL += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    revenueTotalCorporate += summaryObject.Amount;
-                    revenueRecurringTotalCorporate += summaryObject.Amount;
+                    revenueTotalCorporate += summaryObject.Balance;
+                    revenueRecurringTotalCorporate += summaryObject.Balance;
                 }
             }
             REVENUE_NON_RECURRING => {
-                revenueNonRecurringTotal += summaryObject.Amount;
+                revenueNonRecurringTotal += summaryObject.Balance;
                 if (summaryObject.BusinessUnit == BU_IAM) {
-                    revenueTotalIAM += summaryObject.Amount;
-                    revenueNonRecurringTotalIAM += summaryObject.Amount;
+                    revenueTotalIAM += summaryObject.Balance;
+                    revenueNonRecurringTotalIAM += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    revenueTotalINTSW += summaryObject.Amount;
-                    revenueNonRecurringTotalINTSW += summaryObject.Amount;
+                    revenueTotalINTSW += summaryObject.Balance;
+                    revenueNonRecurringTotalINTSW += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    revenueTotalINTCL += summaryObject.Amount;
-                    revenueNonRecurringTotalINTCL += summaryObject.Amount;
+                    revenueTotalINTCL += summaryObject.Balance;
+                    revenueNonRecurringTotalINTCL += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    revenueTotalCorporate += summaryObject.Amount;
-                    revenueNonRecurringTotalCorporate += summaryObject.Amount;
+                    revenueTotalCorporate += summaryObject.Balance;
+                    revenueNonRecurringTotalCorporate += summaryObject.Balance;
                 }
             }
             REVENUE_CLOUD => {
-                revenueCloudTotal += summaryObject.Amount;
+                revenueCloudTotal += summaryObject.Balance;
                 if (summaryObject.BusinessUnit == BU_IAM) {
-                    revenueTotalIAM += summaryObject.Amount;
-                    revenueCloudTotalIAM += summaryObject.Amount;
+                    revenueTotalIAM += summaryObject.Balance;
+                    revenueCloudTotalIAM += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
                     summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    revenueTotalINTSW += summaryObject.Amount;
-                    revenueCloudTotalINTSW += summaryObject.Amount;
+                    revenueTotalINTSW += summaryObject.Balance;
+                    revenueCloudTotalINTSW += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    revenueTotalINTCL += summaryObject.Amount;
-                    revenueCloudTotalINTCL += summaryObject.Amount;
+                    revenueTotalINTCL += summaryObject.Balance;
+                    revenueCloudTotalINTCL += summaryObject.Balance;
                 } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    revenueTotalCorporate += summaryObject.Amount;
-                    revenueCloudTotalCorporate += summaryObject.Amount;
+                    revenueTotalCorporate += summaryObject.Balance;
+                    revenueCloudTotalCorporate += summaryObject.Balance;
                 }
             }
         }

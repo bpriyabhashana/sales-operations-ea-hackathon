@@ -12,68 +12,24 @@ final http:Client clientEndpoint =
     clientSecret: CHOREO_CLIENT_SECRET
 });
 
-function getIncomeRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
+function getAccountBalance(DatePeriodFilterCriteria filterCriteria, string balanceType) returns json|error {
     string directQuery = string `{
-                income(filterCriteria: {
-                startDate : ${datePeriodFilterCriteria.startDate.toJsonString()},
-                endDate : ${datePeriodFilterCriteria.endDate.toJsonString()},
+                accountBalance(filterCriteria: {
+                balanceType : ${balanceType.toJsonString()}
+                startDate : ${filterCriteria.startDate.toJsonString()},
+                endDate : ${filterCriteria.endDate.toJsonString()},
             }) {    
-                 AccountType,
+                AccountType,
                 AccountCategory,
                 BusinessUnit,
-                Amount,
+                Balance,
             }
         }`;
 
     json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
 
     if (response is json) {
-        return check response.data.income;
-    } else {
-        return response;
-    }
-}
-
-function getExpenseRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
-    string directQuery = string `{
-                expense(filterCriteria: {
-                startDate : ${datePeriodFilterCriteria.startDate.toJsonString()},
-                endDate : ${datePeriodFilterCriteria.endDate.toJsonString()},
-            }) {    
-                 AccountType,
-                AccountCategory,
-                BusinessUnit,
-                Amount,
-            }
-        }`;
-
-    json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
-
-    if (response is json) {
-        return check response.data.expense;
-    } else {
-        return response;
-    }
-}
-
-public isolated function getCostOfSalesRecords(DatePeriodFilterCriteria datePeriodFilterCriteria) returns json|error {
-    string directQuery = string `{
-                expenseCOS(filterCriteria: {
-                startDate : ${datePeriodFilterCriteria.startDate.toJsonString()},
-                endDate : ${datePeriodFilterCriteria.endDate.toJsonString()},
-            }) {    
-                 AccountType,
-                AccountCategory,
-                Type,
-                BusinessUnit,
-                Amount,
-            }
-        }`;
-
-    json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
-
-    if (response is json) {
-        return check response.data.expenseCOS;
+        return check response.data.accountBalance;
     } else {
         return response;
     }
@@ -110,37 +66,9 @@ public isolated function getHTTPBadRequestResponse(error err) returns http:BadRe
     };
 }
 
-public isolated function getHTTPUnauthorizedResponse(error err, string msg) returns http:Unauthorized {
-    return {
-        headers: getHeaders(),
-        body: {
-            success: false,
-            message: msg,
-            'error: err.toString()
-        }
-    };
-}
-
-public isolated function getHTTPUnknownResponse(string msg) returns http:BadRequest {
-    return {
-        headers: getHeaders(),
-        body: {
-            success: false,
-            message: msg
-        }
-    };
-}
-
 public isolated function formatArray(json[] array) returns json[]|error {
-    foreach int i in 1 ..< array.length()+1 {
-        array[i-1] = check array[i-1].mergeJson({id: i.toString()});
-    }
-    return array;
-}
-
-public isolated function formatRangeArray(json[] array) returns json[]|error {
-    foreach int i in 0 ..< array.length() {
-        array[i] = check array[i].mergeJson({id: i.toString()});
+    foreach int i in 1 ..< array.length() + 1 {
+        array[i - 1] = check array[i - 1].mergeJson({id: i.toString()});
     }
     return array;
 }
