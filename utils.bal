@@ -12,10 +12,9 @@ final http:Client clientEndpoint =
     clientSecret: CHOREO_CLIENT_SECRET
 });
 
-function getAccountBalance(DatePeriodFilterCriteria filterCriteria, string balanceType) returns json|error {
+function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
     string directQuery = string `{
-                accountBalance(filterCriteria: {
-                balanceType : ${balanceType.toJsonString()}
+                sumOfIncomeAccounts(filterCriteria: {
                 startDate : ${filterCriteria.startDate.toJsonString()},
                 endDate : ${filterCriteria.endDate.toJsonString()},
             }) {    
@@ -29,7 +28,29 @@ function getAccountBalance(DatePeriodFilterCriteria filterCriteria, string balan
     json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
 
     if (response is json) {
-        return check response.data.accountBalance;
+        return check response.data.sumOfIncomeAccounts;
+    } else {
+        return response;
+    }
+}
+
+function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
+    string directQuery = string `{
+                sumOfExpenseAccounts(filterCriteria: {
+                startDate : ${filterCriteria.startDate.toJsonString()},
+                endDate : ${filterCriteria.endDate.toJsonString()},
+            }) {    
+                AccountType,
+                AccountCategory,
+                BusinessUnit,
+                Balance,
+            }
+        }`;
+
+    json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
+
+    if (response is json) {
+        return check response.data.sumOfExpenseAccounts;
     } else {
         return response;
     }

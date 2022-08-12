@@ -7,7 +7,14 @@ public type DatePeriodFilterCriteria record {
 
 // --------- record data ---------
 
-public type IncomeExpenseSummaryRecord record {
+public type SumOfExpenseAccountData record {
+    string AccountType;
+    string AccountCategory;
+    string BusinessUnit;
+    decimal Balance;
+};
+
+public type SumOfIncomeAccountData record {
     string AccountType;
     string AccountCategory;
     string BusinessUnit;

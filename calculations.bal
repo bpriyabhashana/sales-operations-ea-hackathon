@@ -1,4 +1,4 @@
-function calculateBalance(json revenue, json cos) returns json|error {
+function calculateBalance(json income, json expense) returns json|error {
 
     json[] cosRows = [];
     json[] revenueRows = [];
@@ -47,8 +47,8 @@ function calculateBalance(json revenue, json cos) returns json|error {
     decimal cosNonRecurringTotalINTCL = 0.00;
     decimal cosNonRecurringTotalCorporate = 0.00;
 
-    foreach var item in <json[]>cos {
-        IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
+    foreach var item in <json[]>expense {
+        SumOfExpenseAccountData summaryObject = check item.cloneWithType(SumOfExpenseAccountData);
 
         match summaryObject.AccountCategory {
             COS_RECURRING_REVENUE => {
@@ -135,9 +135,9 @@ function calculateBalance(json revenue, json cos) returns json|error {
         }
     ]);
 
-    foreach var item in <json[]>revenue {
+    foreach var item in <json[]>income {
 
-        IncomeExpenseSummaryRecord summaryObject = check item.cloneWithType(IncomeExpenseSummaryRecord);
+        SumOfIncomeAccountData summaryObject = check item.cloneWithType(SumOfIncomeAccountData);
 
         match summaryObject.AccountCategory {
             REVENUE_RECURRING => {
