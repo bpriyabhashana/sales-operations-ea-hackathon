@@ -37,14 +37,22 @@ function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns
 function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
     string directQuery = string `{
                 sumOfExpenseAccounts(filterCriteria: {
-                startDate : ${filterCriteria.startDate.toJsonString()},
-                endDate : ${filterCriteria.endDate.toJsonString()},
-            }) {    
-                AccountType,
-                AccountCategory,
-                BusinessUnit,
-                Balance,
-            }
+                    range : {
+                        startDate: ${filterCriteria.startDate.toJsonString()} 
+                        endDate: ${filterCriteria.endDate.toJsonString()}
+                    }
+                    groupBy : {
+                        AccountType: true,
+                        AccountCategory: true,
+                        ExpenseType: false,
+                        BusinessUnit: true
+                    }
+                        }) {    
+                            AccountType,
+                            AccountCategory,
+                            BusinessUnit,
+                            Balance,
+                        }
         }`;
 
     json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});

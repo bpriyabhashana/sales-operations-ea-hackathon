@@ -11,7 +11,6 @@ const BU_INTEGRATION_SW = "Integration-Software";
 const BU_IPAAS = "iPaaS";
 const BU_HEALTHCARE = "Integration_ : HealthCare";
 
-
 # Cost of Sales account categories
 const COS_RECURRING_REVENUE = "Recurring Revenue COS";
 const COS_NON_RECURRING_REVENUE = "Non-Recurring Revenue COS";

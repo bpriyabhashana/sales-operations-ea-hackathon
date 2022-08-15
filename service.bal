@@ -5,12 +5,14 @@ import ballerina/http;
 service / on new http:Listener(9090) {
 
     # A resource for generating greetings
-    # + payload - DatePeriodFilterCriteria (refer records.bal for more details)
     # + return - formatted http response
-    resource function post getBalanceStatement(http:Request request,
-                                            @http:Payload DatePeriodFilterCriteria payload)
+    resource function get balanceStatement(string startDate, string endDate)
                                             returns http:Ok|http:BadRequest|error {
+
+        DatePeriodFilterCriteria payload = {
+            startDate: startDate,
+            endDate: endDate
+        };
         return getBalanceStatement(payload);
     }
-
 }
