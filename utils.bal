@@ -15,19 +15,27 @@ final http:Client clientEndpoint =
 function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
     string directQuery = string `{
                 sumOfIncomeAccounts(filterCriteria: {
-                startDate : ${filterCriteria.startDate.toJsonString()},
-                endDate : ${filterCriteria.endDate.toJsonString()},
-            }) {    
-                AccountType,
-                AccountCategory,
-                BusinessUnit,
-                Balance,
-            }
+                    range : {
+                        startDate: ${filterCriteria.startDate.toJsonString()} 
+                        endDate: ${filterCriteria.endDate.toJsonString()}
+                    }
+                    groupBy : {
+                        AccountType: true,
+                        AccountCategory: true,
+                        IncomeType: false,
+                        BusinessUnit: true
+                    }
+                        }) {    
+                            AccountType,
+                            AccountCategory,
+                            BusinessUnit,
+                            Balance,
+                        }
         }`;
 
     json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
 
-    if (response is json) {
+    if response is json {
         return check response.data.sumOfIncomeAccounts;
     } else {
         return response;
@@ -57,7 +65,7 @@ function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) return
 
     json|error response = check clientEndpoint->post("/graphql", {"query": (directQuery)});
 
-    if (response is json) {
+    if response is json {
         return check response.data.sumOfExpenseAccounts;
     } else {
         return response;
@@ -67,7 +75,7 @@ function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) return
 public isolated function calculateGrossMargin(decimal revenue, decimal costOfSales) returns decimal|string {
     // io:println(revenue ," ", costOfSales);
 
-    if (revenue != 0d) {
+    if revenue != 0d {
         //  io:println(HUNDRED_PERCENT * (revenue - costOfSales) / revenue );
         return (HUNDRED_PERCENT * (revenue - costOfSales) / revenue);
     } else {
