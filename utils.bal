@@ -1,4 +1,6 @@
 import ballerina/http;
+import ballerinax/mysql;
+import ballerinax/mysql.driver as _;
 
 configurable string CHOREO_TOKEN_ENDPOINT = ?;
 configurable string CHOREO_CLIENT_ID = ?;
@@ -11,6 +13,19 @@ final http:Client clientEndpoint =
     clientId: CHOREO_CLIENT_ID,
     clientSecret: CHOREO_CLIENT_SECRET
 });
+
+
+configurable string dbHost = ?;
+configurable string dbUser = ?;
+configurable string dbPassword = ?;
+configurable string dbName = ?;
+configurable int dbPort = ?;
+
+final mysql:Client mysqlClientSalesforce = check new (host = dbHost,
+                                    user = dbUser,
+                                    password = dbPassword,
+                                    database = dbName,
+                                    port = dbPort);
 
 function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
     string directQuery = string `{

@@ -16,16 +16,41 @@ const COS_RECURRING_REVENUE = "Recurring Revenue COS";
 const COS_NON_RECURRING_REVENUE = "Non-Recurring Revenue COS";
 const COS_CLOUD = "Cloud";
 
+# Revenue acount categories
+const REVENUE_RECURRING = "Recurring Revenue";
+const REVENUE_NON_RECURRING = "Non Recurring Revenue";
+const REVENUE_CLOUD = "Cloud";
+
+# ARR types
+const OPENING_ARR = "openingARR";
+const CLOSING_ARR = "closingARR";
+const CLOUD_ARR = "cloudARR";
+const OPENING_ARR_DELAYED = "openingARRDelayed";
+const CLOSING_ARR_DELAYED = "closingARRDelayed";
+
+
+# Flash Report Sections
+# ARR
+const ARR_OPENING = "Opening ARR";
+const ARR_NEW = "New";
+const ARR_EXPANSION = "Expansion";
+const ARR_REDUCTION = "Reduction";
+const ARR_LOST = "Lost";
+const ARR_CLOSING = "Closing ARR";
+const ARR_CLOUD = "Cloud ARR";
+const ARR_TOTAL_EXIT = "Total Exit ARR";
+
+# Bookings
+const BOOKINGS_HEADING_TITLE = "Booking";
+const BOOKINGS_RECURRING_TITLE = "Recurring";
+const BOOKINGS_NON_RECURRING_TITLE = "Non-Recurring/PSO";
+const BOOKINGS_CLOUD_TITLE = "Cloud";
+
 # Cost of Sales
 const COS_HEADING_TITLE = "Cost of Sales";
 const COS_RECURRING_TITLE = "Recurring";
 const COS_NON_RECURRING_TITLE = "Non-Recurring/PSO";
 const COS_PUBLIC_CLOUD_TITLE = "Public Cloud";
-
-# Revenue acount categories
-const REVENUE_RECURRING = "Recurring Revenue";
-const REVENUE_NON_RECURRING = "Non Recurring Revenue";
-const REVENUE_CLOUD = "Cloud";
 
 # Revenue
 const REVENUE_HEADING_TITLE = "Revenue";
