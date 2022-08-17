@@ -49,7 +49,7 @@ public function getSFOpportunitiesWithFilter(DatePeriodFilterCriteria datePeriod
     return jsonSFOpportunities;
 }
 
-public  function getSFBookingSummariesPerGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns json|error {
+public function getSFBookingSummariesPerGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns json|error {
 
     json jsonBookingSummary = {};
 

@@ -1,4 +1,4 @@
-function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRecord) returns [json[], json[]]|error {
+function calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRecord) returns [json[], json[]]|error {
 
     json[] arrRows = [];
     json[] bookingRows = [];
@@ -54,69 +54,69 @@ function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodR
 
     arrRows = check formatArray([
         {
-        title: ARR_OPENING,
-        integration_cl: null,
-        integration_sw: openingARRIntSW,
-        iam: openingARRIAM,
-        corporate: null,
-        wso2: openingARRTotal
-    },
+            title: ARR_OPENING,
+            integration_cl: null,
+            integration_sw: openingARRIntSW,
+            iam: openingARRIAM,
+            corporate: null,
+            wso2: openingARRTotal
+        },
         {
-        title: ARR_NEW,
-        integration_cl: null,
-        integration_sw: sfNewExpRedLostValueRecord.newARRIntegration,
-        iam: sfNewExpRedLostValueRecord.newARRIAM,
-        corporate: null,
-        wso2: sfNewExpRedLostValueRecord.newARRWSO2
-    },
+            title: ARR_NEW,
+            integration_cl: null,
+            integration_sw: sfNewExpRedLostValueRecord.newARRIntegration,
+            iam: sfNewExpRedLostValueRecord.newARRIAM,
+            corporate: null,
+            wso2: sfNewExpRedLostValueRecord.newARRWSO2
+        },
         {
-        title: ARR_EXPANSION,
-        integration_cl: null,
-        integration_sw: sfNewExpRedLostValueRecord.expansionARRIntegration,
-        iam: sfNewExpRedLostValueRecord.expansionARRIAM,
-        corporate: null,
-        wso2: sfNewExpRedLostValueRecord.expansionARRWSO2
-    },
+            title: ARR_EXPANSION,
+            integration_cl: null,
+            integration_sw: sfNewExpRedLostValueRecord.expansionARRIntegration,
+            iam: sfNewExpRedLostValueRecord.expansionARRIAM,
+            corporate: null,
+            wso2: sfNewExpRedLostValueRecord.expansionARRWSO2
+        },
         {
-        title: ARR_REDUCTION,
-        integration_cl: null,
-        integration_sw: sfNewExpRedLostValueRecord.reductionARRIntegration,
-        iam: sfNewExpRedLostValueRecord.reductionARRIAM,
-        corporate: null,
-        wso2: sfNewExpRedLostValueRecord.reductionARRWSO2
-    },
+            title: ARR_REDUCTION,
+            integration_cl: null,
+            integration_sw: sfNewExpRedLostValueRecord.reductionARRIntegration,
+            iam: sfNewExpRedLostValueRecord.reductionARRIAM,
+            corporate: null,
+            wso2: sfNewExpRedLostValueRecord.reductionARRWSO2
+        },
         {
-        title: ARR_LOST,
-        integration_cl: null,
-        integration_sw: sfNewExpRedLostValueRecord.lostARRIntegration,
-        iam: sfNewExpRedLostValueRecord.lostARRIAM,
-        corporate: null,
-        wso2: sfNewExpRedLostValueRecord.lostARRWSO2
-    },
+            title: ARR_LOST,
+            integration_cl: null,
+            integration_sw: sfNewExpRedLostValueRecord.lostARRIntegration,
+            iam: sfNewExpRedLostValueRecord.lostARRIAM,
+            corporate: null,
+            wso2: sfNewExpRedLostValueRecord.lostARRWSO2
+        },
         {
-        title: ARR_CLOSING,
-        integration_cl: null,
-        integration_sw: closingARRIntSW,
-        iam: closingARRIAM,
-        corporate: null,
-        wso2: closingARRTotal
-    },
+            title: ARR_CLOSING,
+            integration_cl: null,
+            integration_sw: closingARRIntSW,
+            iam: closingARRIAM,
+            corporate: null,
+            wso2: closingARRTotal
+        },
         {
-        title: ARR_CLOUD,
-        integration_cl: null,
-        integration_sw: cloudARRIntSW,
-        iam: cloudARRIAM,
-        corporate: null,
-        wso2: cloudARRTotal
-    },
+            title: ARR_CLOUD,
+            integration_cl: null,
+            integration_sw: cloudARRIntSW,
+            iam: cloudARRIAM,
+            corporate: null,
+            wso2: cloudARRTotal
+        },
         {
-        title: ARR_TOTAL_EXIT,
-        integration_cl: null,
-        integration_sw: totalExitARRIntSW,
-        iam: totalExitARRIAM,
-        corporate: null,
-        wso2: totalExitARR
-    }
+            title: ARR_TOTAL_EXIT,
+            integration_cl: null,
+            integration_sw: totalExitARRIntSW,
+            iam: totalExitARRIAM,
+            corporate: null,
+            wso2: totalExitARR
+        }
     ]);
 
     // Salesforce Bookings calculation for a given period
@@ -124,50 +124,50 @@ function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodR
     SalesforceBookingSummaryResponseRecord sfBookingResp = check resultSFBookings.cloneWithType(SalesforceBookingSummaryResponseRecord);
     bookingRows = check formatArray([
         {
-        title: BOOKINGS_HEADING_TITLE,
-        integration_cl: null,
-        // Currently all cloud bookings are under Integration-Software
-        integration_sw: sfBookingResp.Bookings_Integration_Recurring +
+            title: BOOKINGS_HEADING_TITLE,
+            integration_cl: null,
+            // Currently all cloud bookings are under Integration-Software
+            integration_sw: sfBookingResp.Bookings_Integration_Recurring +
                         sfBookingResp.Bookings_Integration_Non_Recurring +
                         sfBookingResp.Bookings_Cloud_Total,
-        iam: sfBookingResp.Bookings_IAM_Recurring +
+            iam: sfBookingResp.Bookings_IAM_Recurring +
                 sfBookingResp.Bookings_IAM_Non_Recurring,
-        corporate: null,
-        wso2: sfBookingResp.Bookings_Recurring_Total +
+            corporate: null,
+            wso2: sfBookingResp.Bookings_Recurring_Total +
                 sfBookingResp.Bookings_Non_Recurring_Total +
                 sfBookingResp.Bookings_Cloud_Total
-    },
+        },
         {
-        title: BOOKINGS_RECURRING_TITLE,
-        integration_cl: null,
-        integration_sw: sfBookingResp.Bookings_Integration_Recurring,
-        iam: sfBookingResp.Bookings_IAM_Recurring,
-        corporate: null,
-        wso2: sfBookingResp.Bookings_Recurring_Total
-    },
+            title: BOOKINGS_RECURRING_TITLE,
+            integration_cl: null,
+            integration_sw: sfBookingResp.Bookings_Integration_Recurring,
+            iam: sfBookingResp.Bookings_IAM_Recurring,
+            corporate: null,
+            wso2: sfBookingResp.Bookings_Recurring_Total
+        },
         {
-        title: BOOKINGS_CLOUD_TITLE,
-        integration_cl: null,
-        // Currently all cloud bookings are under Integration-Software
-        integration_sw: sfBookingResp.Bookings_Cloud_Total,
-        iam: null,
-        corporate: null,
-        wso2: sfBookingResp.Bookings_Cloud_Total
-    },
+            title: BOOKINGS_CLOUD_TITLE,
+            integration_cl: null,
+            // Currently all cloud bookings are under Integration-Software
+            integration_sw: sfBookingResp.Bookings_Cloud_Total,
+            iam: null,
+            corporate: null,
+            wso2: sfBookingResp.Bookings_Cloud_Total
+        },
         {
-        title: BOOKINGS_NON_RECURRING_TITLE,
-        integration_cl: null,
-        integration_sw: sfBookingResp.Bookings_Integration_Non_Recurring,
-        iam: sfBookingResp.Bookings_IAM_Non_Recurring,
-        corporate: null,
-        wso2: sfBookingResp.Bookings_Non_Recurring_Total
-    }
+            title: BOOKINGS_NON_RECURRING_TITLE,
+            integration_cl: null,
+            integration_sw: sfBookingResp.Bookings_Integration_Non_Recurring,
+            iam: sfBookingResp.Bookings_IAM_Non_Recurring,
+            corporate: null,
+            wso2: sfBookingResp.Bookings_Non_Recurring_Total
+        }
     ]);
 
     return [arrRows, bookingRows];
 }
 
-  function  calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriodRecord) returns SFNewExpRedLostValueRecord|error {
+function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriodRecord) returns SFNewExpRedLostValueRecord|error {
 
     map<json> sfAccountsMap = {};
 

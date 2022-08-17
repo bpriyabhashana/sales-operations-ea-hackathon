@@ -14,7 +14,6 @@ final http:Client clientEndpoint =
     clientSecret: CHOREO_CLIENT_SECRET
 });
 
-
 configurable string dbHost = ?;
 configurable string dbUser = ?;
 configurable string dbPassword = ?;
