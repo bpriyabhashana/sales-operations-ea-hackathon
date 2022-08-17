@@ -8,15 +8,15 @@ public type DatePeriodFilterCriteria record {
 // --------- record data ---------
 
 public type SumOfExpenseAccountData record {
-    string AccountType;
-    string AccountCategory;
-    string BusinessUnit;
-    decimal Balance;
+    string accountType;
+    string accountCategory;
+    string businessUnit;
+    decimal balance;
 };
 
 public type SumOfIncomeAccountData record {
-    string AccountType;
-    string AccountCategory;
-    string BusinessUnit;
-    decimal Balance;
+    string accountType;
+    string accountCategory;
+    string businessUnit;
+    decimal balance;
 };

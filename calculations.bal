@@ -50,44 +50,44 @@ function calculateBalance(json income, json expense) returns json|error {
     foreach var item in <json[]>expense {
         SumOfExpenseAccountData summaryObject = check item.cloneWithType(SumOfExpenseAccountData);
 
-        match summaryObject.AccountCategory {
+        match summaryObject.accountCategory {
             COS_RECURRING_REVENUE => {
-                cosRecurringTotal += summaryObject.Balance;
-                if (summaryObject.BusinessUnit == BU_IAM) {
-                    cosRecurringTotalIAM += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    cosRecurringTotalINTSW += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    cosRecurringTotalINTCL += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    cosRecurringTotalCorporate += summaryObject.Balance;
+                cosRecurringTotal += summaryObject.balance;
+                if summaryObject.businessUnit == BU_IAM {
+                    cosRecurringTotalIAM += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_SW || summaryObject.businessUnit == BU_BFSI ||
+                    summaryObject.businessUnit == BU_IPAAS || summaryObject.businessUnit == BU_HEALTHCARE {
+                    cosRecurringTotalINTSW += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_CL {
+                    cosRecurringTotalINTCL += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_CORPORATE {
+                    cosRecurringTotalCorporate += summaryObject.balance;
                 }
             }
             COS_NON_RECURRING_REVENUE => {
-                cosNonRecurringTotal += summaryObject.Balance;
-                if (summaryObject.BusinessUnit == BU_IAM) {
-                    cosNonRecurringTotalIAM += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    cosNonRecurringTotalINTSW += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    cosNonRecurringTotalINTCL += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    cosNonRecurringTotalCorporate += summaryObject.Balance;
+                cosNonRecurringTotal += summaryObject.balance;
+                if summaryObject.businessUnit == BU_IAM {
+                    cosNonRecurringTotalIAM += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_SW || summaryObject.businessUnit == BU_BFSI ||
+                    summaryObject.businessUnit == BU_IPAAS || summaryObject.businessUnit == BU_HEALTHCARE {
+                    cosNonRecurringTotalINTSW += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_CL {
+                    cosNonRecurringTotalINTCL += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_CORPORATE {
+                    cosNonRecurringTotalCorporate += summaryObject.balance;
                 }
             }
             COS_CLOUD => {
-                cosCloudTotal += summaryObject.Balance;
-                if (summaryObject.BusinessUnit == BU_IAM) {
-                    cosCloudTotalIAM += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    cosCloudTotalINTSW += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    cosCloudTotalINTCL += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    cosCloudTotalCorporate += summaryObject.Balance;
+                cosCloudTotal += summaryObject.balance;
+                if summaryObject.businessUnit == BU_IAM {
+                    cosCloudTotalIAM += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_SW || summaryObject.businessUnit == BU_BFSI ||
+                    summaryObject.businessUnit == BU_IPAAS || summaryObject.businessUnit == BU_HEALTHCARE {
+                    cosCloudTotalINTSW += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_CL {
+                    cosCloudTotalINTCL += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_CORPORATE {
+                    cosCloudTotalCorporate += summaryObject.balance;
                 }
             }
         }
@@ -139,56 +139,56 @@ function calculateBalance(json income, json expense) returns json|error {
 
         SumOfIncomeAccountData summaryObject = check item.cloneWithType(SumOfIncomeAccountData);
 
-        match summaryObject.AccountCategory {
+        match summaryObject.accountCategory {
             REVENUE_RECURRING => {
-                revenueRecurringTotal += summaryObject.Balance;
-                if (summaryObject.BusinessUnit == BU_IAM) {
-                    revenueTotalIAM += summaryObject.Balance;
-                    revenueRecurringTotalIAM += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    revenueTotalINTSW += summaryObject.Balance;
-                    revenueRecurringTotalINTSW += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    revenueTotalINTCL += summaryObject.Balance;
-                    revenueRecurringTotalINTCL += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    revenueTotalCorporate += summaryObject.Balance;
-                    revenueRecurringTotalCorporate += summaryObject.Balance;
+                revenueRecurringTotal += summaryObject.balance;
+                if summaryObject.businessUnit == BU_IAM {
+                    revenueTotalIAM += summaryObject.balance;
+                    revenueRecurringTotalIAM += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_SW || summaryObject.businessUnit == BU_BFSI ||
+                    summaryObject.businessUnit == BU_IPAAS || summaryObject.businessUnit == BU_HEALTHCARE {
+                    revenueTotalINTSW += summaryObject.balance;
+                    revenueRecurringTotalINTSW += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_CL {
+                    revenueTotalINTCL += summaryObject.balance;
+                    revenueRecurringTotalINTCL += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_CORPORATE {
+                    revenueTotalCorporate += summaryObject.balance;
+                    revenueRecurringTotalCorporate += summaryObject.balance;
                 }
             }
             REVENUE_NON_RECURRING => {
-                revenueNonRecurringTotal += summaryObject.Balance;
-                if (summaryObject.BusinessUnit == BU_IAM) {
-                    revenueTotalIAM += summaryObject.Balance;
-                    revenueNonRecurringTotalIAM += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    revenueTotalINTSW += summaryObject.Balance;
-                    revenueNonRecurringTotalINTSW += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    revenueTotalINTCL += summaryObject.Balance;
-                    revenueNonRecurringTotalINTCL += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    revenueTotalCorporate += summaryObject.Balance;
-                    revenueNonRecurringTotalCorporate += summaryObject.Balance;
+                revenueNonRecurringTotal += summaryObject.balance;
+                if summaryObject.businessUnit == BU_IAM {
+                    revenueTotalIAM += summaryObject.balance;
+                    revenueNonRecurringTotalIAM += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_SW || summaryObject.businessUnit == BU_BFSI ||
+                    summaryObject.businessUnit == BU_IPAAS || summaryObject.businessUnit == BU_HEALTHCARE {
+                    revenueTotalINTSW += summaryObject.balance;
+                    revenueNonRecurringTotalINTSW += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_CL {
+                    revenueTotalINTCL += summaryObject.balance;
+                    revenueNonRecurringTotalINTCL += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_CORPORATE {
+                    revenueTotalCorporate += summaryObject.balance;
+                    revenueNonRecurringTotalCorporate += summaryObject.balance;
                 }
             }
             REVENUE_CLOUD => {
-                revenueCloudTotal += summaryObject.Balance;
-                if (summaryObject.BusinessUnit == BU_IAM) {
-                    revenueTotalIAM += summaryObject.Balance;
-                    revenueCloudTotalIAM += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_SW || summaryObject.BusinessUnit == BU_BFSI ||
-                    summaryObject.BusinessUnit == BU_IPAAS || summaryObject.BusinessUnit == BU_HEALTHCARE) {
-                    revenueTotalINTSW += summaryObject.Balance;
-                    revenueCloudTotalINTSW += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_INTEGRATION_CL) {
-                    revenueTotalINTCL += summaryObject.Balance;
-                    revenueCloudTotalINTCL += summaryObject.Balance;
-                } else if (summaryObject.BusinessUnit == BU_CORPORATE) {
-                    revenueTotalCorporate += summaryObject.Balance;
-                    revenueCloudTotalCorporate += summaryObject.Balance;
+                revenueCloudTotal += summaryObject.balance;
+                if summaryObject.businessUnit == BU_IAM {
+                    revenueTotalIAM += summaryObject.balance;
+                    revenueCloudTotalIAM += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_SW || summaryObject.businessUnit == BU_BFSI ||
+                    summaryObject.businessUnit == BU_IPAAS || summaryObject.businessUnit == BU_HEALTHCARE {
+                    revenueTotalINTSW += summaryObject.balance;
+                    revenueCloudTotalINTSW += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_INTEGRATION_CL {
+                    revenueTotalINTCL += summaryObject.balance;
+                    revenueCloudTotalINTCL += summaryObject.balance;
+                } else if summaryObject.businessUnit == BU_CORPORATE {
+                    revenueTotalCorporate += summaryObject.balance;
+                    revenueCloudTotalCorporate += summaryObject.balance;
                 }
             }
         }

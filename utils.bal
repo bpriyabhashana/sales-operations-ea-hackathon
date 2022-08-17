@@ -20,16 +20,16 @@ function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns
                         endDate: ${filterCriteria.endDate.toJsonString()}
                     }
                     groupBy : {
-                        AccountType: true,
-                        AccountCategory: true,
-                        IncomeType: false,
-                        BusinessUnit: true
+                        accountType: true,
+                        accountCategory: true,
+                        incomeType: false,
+                        businessUnit: true
                     }
                         }) {    
-                            AccountType,
-                            AccountCategory,
-                            BusinessUnit,
-                            Balance,
+                            accountType,
+                            accountCategory,
+                            businessUnit,
+                            balance,
                         }
         }`;
 
@@ -50,16 +50,16 @@ function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) return
                         endDate: ${filterCriteria.endDate.toJsonString()}
                     }
                     groupBy : {
-                        AccountType: true,
-                        AccountCategory: true,
-                        ExpenseType: false,
-                        BusinessUnit: true
+                        accountType: true,
+                        accountCategory: true,
+                        expenseType: false,
+                        businessUnit: true
                     }
                         }) {    
-                            AccountType,
-                            AccountCategory,
-                            BusinessUnit,
-                            Balance,
+                            accountType,
+                            accountCategory,
+                            businessUnit,
+                            balance,
                         }
         }`;
 
