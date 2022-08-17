@@ -124,7 +124,6 @@ function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodR
     SalesforceBookingSummaryResponseRecord sfBookingResp = check resultSFBookings.cloneWithType(SalesforceBookingSummaryResponseRecord);
     bookingRows = check formatArray([
         {
-        id: "1",
         title: BOOKINGS_HEADING_TITLE,
         integration_cl: null,
         // Currently all cloud bookings are under Integration-Software
@@ -139,7 +138,6 @@ function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodR
                 sfBookingResp.Bookings_Cloud_Total
     },
         {
-        id: "2",
         title: BOOKINGS_RECURRING_TITLE,
         integration_cl: null,
         integration_sw: sfBookingResp.Bookings_Integration_Recurring,
@@ -148,7 +146,6 @@ function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodR
         wso2: sfBookingResp.Bookings_Recurring_Total
     },
         {
-        id: "3",
         title: BOOKINGS_CLOUD_TITLE,
         integration_cl: null,
         // Currently all cloud bookings are under Integration-Software
@@ -158,7 +155,6 @@ function  calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodR
         wso2: sfBookingResp.Bookings_Cloud_Total
     },
         {
-        id: "4",
         title: BOOKINGS_NON_RECURRING_TITLE,
         integration_cl: null,
         integration_sw: sfBookingResp.Bookings_Integration_Non_Recurring,
