@@ -5,6 +5,11 @@ public type DatePeriodFilterCriteria record {
     string endDate;
 };
 
+public type DatePeriodBuFilterCriteria record {
+    string businessUnit;
+    DatePeriodFilterCriteria period;
+};
+
 // ------ records ---------
 
 public type SalesforceARROpeningClosingRespRecord record {

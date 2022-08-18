@@ -2,7 +2,7 @@ import ballerina/http;
 
 function getBalanceStatement(DatePeriodFilterCriteria payload) returns http:Ok|http:BadRequest|error {
 
-    json|error summary = {};
+    json summary = {};
     json[] arrRows = [];
     json[] bookingRows = [];
     json[] revenueRows = [];
@@ -15,22 +15,33 @@ function getBalanceStatement(DatePeriodFilterCriteria payload) returns http:Ok|h
 
         [arrRows, bookingRows] = check calculateSalesforceARRAndBookings(payload);
 
-        if summary is json {
-            summary = check summary.mergeJson({
+            summary = {
                 arr: arrRows,
                 bookings: bookingRows,
                 revenue: revenueRows,
                 costOfSales: cosRows,
                 grossProfit: gpRows,
                 grossMargin: gmRows
-            });
-            return getHTTPOkResponse(check summary);
-        }
-
-        return getHTTPBadRequestResponse(summary);
+            };
+            return getHTTPOkResponse( summary);
+    
     } on fail error err {
         return getHTTPBadRequestResponse(err);
     }
+
+}
+
+function getArrAndBookingsPerBuPerMonth(DatePeriodBuFilterCriteria payload) returns http:Ok|http:BadRequest|error {
+
+    json[] arrRows = [];
+    json[] bookingRows = [];
+
+    do {
+            [arrRows, bookingRows] = check calculateARRAndBookingsPerBUPerMonth(payload);
+             return getHTTPOkResponse( {arr: arrRows, bookings: bookingRows});
+        } on fail error err {
+            return getHTTPBadRequestResponse(err);
+        }
 
 }
 

@@ -8,7 +8,6 @@ service / on new http:Listener(9090) {
     # + return - formatted http response
     resource function get balanceStatement(string startDate, string endDate)
                                             returns http:Ok|http:BadRequest|error {
-
         DatePeriodFilterCriteria payload = {
             startDate: startDate,
             endDate: endDate
@@ -16,4 +15,15 @@ service / on new http:Listener(9090) {
         return getBalanceStatement(payload);
     }
 
+    resource function get arrAndBookingsPerBuPerMonth(string businessUnit, string startDate, string endDate)
+                                            returns http:Ok|http:BadRequest|error {
+        DatePeriodBuFilterCriteria payload = {
+            businessUnit: businessUnit,
+            period: {
+                startDate: startDate,
+                endDate: endDate
+            }
+        };
+        return getArrAndBookingsPerBuPerMonth(payload);
+    }
 }

@@ -1,4 +1,4 @@
-function calculateBalance(json income, json expense) returns [json[], json[], json[], json[]]|error {
+isolated function calculateBalance(json income, json expense) returns [json[], json[], json[], json[]]|error {
 
     json[] cosRows = [];
     json[] revenueRows = [];

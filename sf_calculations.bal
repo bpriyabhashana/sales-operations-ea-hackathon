@@ -20,25 +20,25 @@ function calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRe
     // Opening/Closing/Cloud ARR Totals
     json[] resultSFOpeningClosingARR = check getSFARRPerGivenPeriod(datePeriodRecord);
     foreach var j in resultSFOpeningClosingARR {
-        if (j.amount != null) {
+        if j.amount != null {
             SalesforceARROpeningClosingRespRecord sfARROpenCloseResp = check j.cloneWithType(SalesforceARROpeningClosingRespRecord);
-            if (sfARROpenCloseResp.arr_type == OPENING_ARR) {
+            if sfARROpenCloseResp.arr_type == OPENING_ARR {
                 openingARRTotal += sfARROpenCloseResp.amount;
                 openingARRIAM += sfARROpenCloseResp.amount_iam;
                 openingARRIntSW += sfARROpenCloseResp.amount_intsw;
-            } else if (sfARROpenCloseResp.arr_type == CLOSING_ARR) {
+            } else if sfARROpenCloseResp.arr_type == CLOSING_ARR {
                 closingARRTotal += sfARROpenCloseResp.amount;
                 closingARRIAM += sfARROpenCloseResp.amount_iam;
                 closingARRIntSW += sfARROpenCloseResp.amount_intsw;
-            } else if (sfARROpenCloseResp.arr_type == CLOUD_ARR) {
+            } else if sfARROpenCloseResp.arr_type == CLOUD_ARR {
                 cloudARRTotal += sfARROpenCloseResp.amount;
                 cloudARRIAM += sfARROpenCloseResp.amount_iam;
                 cloudARRIntSW += sfARROpenCloseResp.amount_intsw;
-            } else if (sfARROpenCloseResp.arr_type == OPENING_ARR_DELAYED) {
+            } else if sfARROpenCloseResp.arr_type == OPENING_ARR_DELAYED {
                 openingARRTotal += sfARROpenCloseResp.amount;
                 openingARRIAM += sfARROpenCloseResp.amount_iam;
                 openingARRIntSW += sfARROpenCloseResp.amount_intsw;
-            } else if (sfARROpenCloseResp.arr_type == CLOSING_ARR_DELAYED) {
+            } else if sfARROpenCloseResp.arr_type == CLOSING_ARR_DELAYED {
                 closingARRTotal += sfARROpenCloseResp.amount;
                 closingARRIAM += sfARROpenCloseResp.amount_iam;
                 closingARRIntSW += sfARROpenCloseResp.amount_intsw;
@@ -203,32 +203,32 @@ function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriod
     json[] resultsSFOpportunities = check getSFOpportunitiesWithFilter(datePeriodRecord, GET_OPPORTUNITIES);
     foreach var k in resultsSFOpportunities {
         SFOpportunityRespRecord sfOpportunityRespRecord = check k.cloneWithType(SFOpportunityRespRecord);
-        if (sfAccountsMap[sfOpportunityRespRecord.AccountId] != ()) {
+        if sfAccountsMap[sfOpportunityRespRecord.AccountId] != () {
             SFAccountsMapRecord sfAccountsMapRecord = check sfAccountsMap[sfOpportunityRespRecord.AccountId].cloneWithType(SFAccountsMapRecord);
-            if (sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c != () &&
-                sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c != ()) {
+            if sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c != () &&
+                sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c != () {
 
-                if (sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.startDate &&
-                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.startDate) {
-                    if (sfOpportunityRespRecord.ARR__c > 0d) {
+                if sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.startDate &&
+                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.startDate {
+                    if sfOpportunityRespRecord.ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountPrevious += sfOpportunityRespRecord.ARR__c;
                     }
-                    if (sfOpportunityRespRecord.IAM_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.IAM_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountPreviousIAM += sfOpportunityRespRecord.IAM_ARR__c;
                     }
-                    if (sfOpportunityRespRecord.Integration_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.Integration_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountPreviousIntegration += sfOpportunityRespRecord.Integration_ARR__c;
                     }
                 }
-                if (sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.endDate &&
-                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.endDate) {
-                    if (sfOpportunityRespRecord.ARR__c > 0d) {
+                if sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.endDate &&
+                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.endDate {
+                    if sfOpportunityRespRecord.ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountThis += sfOpportunityRespRecord.ARR__c;
                     }
-                    if (sfOpportunityRespRecord.IAM_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.IAM_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountThisIAM += sfOpportunityRespRecord.IAM_ARR__c;
                     }
-                    if (sfOpportunityRespRecord.Integration_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.Integration_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountThisIntegration += sfOpportunityRespRecord.Integration_ARR__c;
                     }
                 }
@@ -241,34 +241,34 @@ function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriod
     json[] resultsSFDelayedOpportunities = check getSFOpportunitiesWithFilter(datePeriodRecord, GET_OPPORTUNITIES_DELAYED);
     foreach var k in resultsSFDelayedOpportunities {
         SFDelayedOpportunityRespRecord sfOpportunityRespRecord = check k.cloneWithType(SFDelayedOpportunityRespRecord);
-        if (sfAccountsMap[sfOpportunityRespRecord.AccountId] != ()) {
+        if sfAccountsMap[sfOpportunityRespRecord.AccountId] != () {
             SFAccountsMapRecord sfAccountsMapRecord = check sfAccountsMap[sfOpportunityRespRecord.AccountId].cloneWithType(SFAccountsMapRecord);
-            if (sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c != () &&
-                sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c != ()) {
+            if sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c != () &&
+                sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c != () {
 
-                if (sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.startDate &&
-                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.startDate) {
+                if sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.startDate &&
+                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.startDate {
                     sfAccountsMapRecord.IsRenewalDelayed = 1;
-                    if (sfOpportunityRespRecord.Delayed_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.Delayed_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountPrevious += sfOpportunityRespRecord.Delayed_ARR__c;
                     }
-                    if (sfOpportunityRespRecord.IAM_Delayed_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.IAM_Delayed_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountPreviousIAM += sfOpportunityRespRecord.IAM_Delayed_ARR__c;
                     }
-                    if (sfOpportunityRespRecord.Integration_Delayed__c > 0d) {
+                    if sfOpportunityRespRecord.Integration_Delayed__c > 0d {
                         sfAccountsMapRecord.arrAmountPreviousIntegration += sfOpportunityRespRecord.Integration_Delayed__c;
                     }
                 }
-                if (sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.endDate &&
-                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.endDate) {
+                if sfOpportunityRespRecord.PS_Support_Account_Start_Date_Roll_Up__c.toString() <= datePeriodRecord.endDate &&
+                    sfOpportunityRespRecord.PS_Support_Account_End_Date_Roll_Up__c.toString() >= datePeriodRecord.endDate {
                     sfAccountsMapRecord.IsRenewalDelayed = 1;
-                    if (sfOpportunityRespRecord.Delayed_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.Delayed_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountThis += sfOpportunityRespRecord.Delayed_ARR__c;
                     }
-                    if (sfOpportunityRespRecord.IAM_Delayed_ARR__c > 0d) {
+                    if sfOpportunityRespRecord.IAM_Delayed_ARR__c > 0d {
                         sfAccountsMapRecord.arrAmountThisIAM += sfOpportunityRespRecord.IAM_Delayed_ARR__c;
                     }
-                    if (sfOpportunityRespRecord.Integration_Delayed__c > 0d) {
+                    if sfOpportunityRespRecord.Integration_Delayed__c > 0d {
                         sfAccountsMapRecord.arrAmountThisIntegration += sfOpportunityRespRecord.Integration_Delayed__c;
                     }
                 }
@@ -281,43 +281,43 @@ function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriod
     sfAccountsMap.forEach(function(json value) {
 
         SFAccountsMapRecord|error sfAccountsMapRecord = value.cloneWithType(SFAccountsMapRecord);
-        if (sfAccountsMapRecord is SFAccountsMapRecord) {
+        if sfAccountsMapRecord is SFAccountsMapRecord {
 
             // WSO2 ARR computation for New, Expansion, Reduction and Lost
-            if (sfAccountsMapRecord.arrAmountPrevious == 0d && sfAccountsMapRecord.arrAmountThis > 0d) {
+            if sfAccountsMapRecord.arrAmountPrevious == 0d && sfAccountsMapRecord.arrAmountThis > 0d {
                 newARR += sfAccountsMapRecord.arrAmountThis;
-            } else if (sfAccountsMapRecord.arrAmountPrevious > 0d && sfAccountsMapRecord.arrAmountThis == 0d) {
+            } else if sfAccountsMapRecord.arrAmountPrevious > 0d && sfAccountsMapRecord.arrAmountThis == 0d {
                 lostARR += sfAccountsMapRecord.arrAmountPrevious;
-            } else if (sfAccountsMapRecord.arrAmountPrevious > 0d && sfAccountsMapRecord.arrAmountThis > 0d) {
-                if (sfAccountsMapRecord.arrAmountPrevious > sfAccountsMapRecord.arrAmountThis) {
+            } else if sfAccountsMapRecord.arrAmountPrevious > 0d && sfAccountsMapRecord.arrAmountThis > 0d {
+                if sfAccountsMapRecord.arrAmountPrevious > sfAccountsMapRecord.arrAmountThis {
                     reductionARR += sfAccountsMapRecord.arrAmountPrevious - sfAccountsMapRecord.arrAmountThis;
-                } else if (sfAccountsMapRecord.arrAmountPrevious < sfAccountsMapRecord.arrAmountThis) {
+                } else if sfAccountsMapRecord.arrAmountPrevious < sfAccountsMapRecord.arrAmountThis {
                     expansionARR += sfAccountsMapRecord.arrAmountThis - sfAccountsMapRecord.arrAmountPrevious;
                 }
             }
 
             // IAM ARR computation for New, Expansion, Reduction and Lost
-            if (sfAccountsMapRecord.arrAmountPreviousIAM == 0d && sfAccountsMapRecord.arrAmountThisIAM > 0d) {
+            if sfAccountsMapRecord.arrAmountPreviousIAM == 0d && sfAccountsMapRecord.arrAmountThisIAM > 0d {
                 newARRIAM += sfAccountsMapRecord.arrAmountThisIAM;
-            } else if (sfAccountsMapRecord.arrAmountPreviousIAM > 0d && sfAccountsMapRecord.arrAmountThisIAM == 0d) {
+            } else if sfAccountsMapRecord.arrAmountPreviousIAM > 0d && sfAccountsMapRecord.arrAmountThisIAM == 0d {
                 lostARRIAM += sfAccountsMapRecord.arrAmountPreviousIAM;
-            } else if (sfAccountsMapRecord.arrAmountPreviousIAM > 0d && sfAccountsMapRecord.arrAmountThisIAM > 0d) {
-                if (sfAccountsMapRecord.arrAmountPreviousIAM > sfAccountsMapRecord.arrAmountThisIAM) {
+            } else if sfAccountsMapRecord.arrAmountPreviousIAM > 0d && sfAccountsMapRecord.arrAmountThisIAM > 0d {
+                if sfAccountsMapRecord.arrAmountPreviousIAM > sfAccountsMapRecord.arrAmountThisIAM {
                     reductionARRIAM += sfAccountsMapRecord.arrAmountPreviousIAM - sfAccountsMapRecord.arrAmountThisIAM;
-                } else if (sfAccountsMapRecord.arrAmountPreviousIAM < sfAccountsMapRecord.arrAmountThisIAM) {
+                } else if sfAccountsMapRecord.arrAmountPreviousIAM < sfAccountsMapRecord.arrAmountThisIAM {
                     expansionARRIAM += sfAccountsMapRecord.arrAmountThisIAM - sfAccountsMapRecord.arrAmountPreviousIAM;
                 }
             }
 
             // Integration ARR computation for New, Expansion, Reduction and Lost
-            if (sfAccountsMapRecord.arrAmountPreviousIntegration == 0d && sfAccountsMapRecord.arrAmountThisIntegration > 0d) {
+            if sfAccountsMapRecord.arrAmountPreviousIntegration == 0d && sfAccountsMapRecord.arrAmountThisIntegration > 0d {
                 newARRIntegration += sfAccountsMapRecord.arrAmountThisIntegration;
-            } else if (sfAccountsMapRecord.arrAmountPreviousIntegration > 0d && sfAccountsMapRecord.arrAmountThisIntegration == 0d) {
+            } else if sfAccountsMapRecord.arrAmountPreviousIntegration > 0d && sfAccountsMapRecord.arrAmountThisIntegration == 0d {
                 lostARRIntegration += sfAccountsMapRecord.arrAmountPreviousIntegration;
-            } else if (sfAccountsMapRecord.arrAmountPreviousIntegration > 0d && sfAccountsMapRecord.arrAmountThisIntegration > 0d) {
-                if (sfAccountsMapRecord.arrAmountPreviousIntegration > sfAccountsMapRecord.arrAmountThisIntegration) {
+            } else if sfAccountsMapRecord.arrAmountPreviousIntegration > 0d && sfAccountsMapRecord.arrAmountThisIntegration > 0d {
+                if sfAccountsMapRecord.arrAmountPreviousIntegration > sfAccountsMapRecord.arrAmountThisIntegration {
                     reductionARRIntegration += sfAccountsMapRecord.arrAmountPreviousIntegration - sfAccountsMapRecord.arrAmountThisIntegration;
-                } else if (sfAccountsMapRecord.arrAmountPreviousIntegration < sfAccountsMapRecord.arrAmountThisIntegration) {
+                } else if sfAccountsMapRecord.arrAmountPreviousIntegration < sfAccountsMapRecord.arrAmountThisIntegration {
                     expansionARRIntegration += sfAccountsMapRecord.arrAmountThisIntegration - sfAccountsMapRecord.arrAmountPreviousIntegration;
                 }
             }

@@ -20,7 +20,7 @@ function getSFOpportunitiesWithFilterQuery(DatePeriodFilterCriteria datePeriodRe
 
     sql:ParameterizedQuery query = ``;
 
-    if (action == GET_OPPORTUNITIES) {
+    if action == GET_OPPORTUNITIES {
         query = `SELECT o.AccountId, 
                         o.ARR__c, 
                         o.IAM_ARR__c, 
@@ -42,7 +42,7 @@ function getSFOpportunitiesWithFilterQuery(DatePeriodFilterCriteria datePeriodRe
                           o.PS_Support_Account_End_Date_Roll_Up__c >= ${datePeriodRecord.endDate})
                        )`;
 
-    } else if (action == GET_OPPORTUNITIES_DELAYED) {
+    } else if action == GET_OPPORTUNITIES_DELAYED {
         query = `SELECT o.AccountId, 
                         o.Delayed_ARR__c, 
                         o.IAM_Delayed_ARR__c, 
@@ -71,7 +71,7 @@ function getSFOpportunitiesWithFilterQuery(DatePeriodFilterCriteria datePeriodRe
     return query;
 }
 
-function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns sql:ParameterizedQuery {
+isolated function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns sql:ParameterizedQuery {
     return `SELECT ${OPENING_ARR} as arr_type, 
                    SUM(ARR__c) AS amount,
                    SUM(IAM_ARR__c) AS amount_iam, 

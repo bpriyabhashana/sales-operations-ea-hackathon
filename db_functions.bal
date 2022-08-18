@@ -4,12 +4,12 @@ public function getSFARRPerGivenPeriod(DatePeriodFilterCriteria datePeriodRecord
 
     stream<record {}, error?> resultStream = mysqlClientSalesforce->query(getSFARRForAGivenPeriod(datePeriodRecord));
 
-    error? e = resultStream.forEach(function(record {} result) {
+    error? obj = resultStream.forEach(function(record {} result) {
         jsonSFOpeningClosingARR.push(result.toJson());
     });
 
-    if (e is error) {
-        return e;
+    if obj is error {
+        return obj;
     }
 
     return jsonSFOpeningClosingARR;
@@ -21,12 +21,12 @@ public function getSFAccountsWithFilter(DatePeriodFilterCriteria datePeriodRecor
 
     stream<record {}, error?> resultStream = mysqlClientSalesforce->query(getSFAccountsWithFilterQuery(datePeriodRecord));
 
-    error? e = resultStream.forEach(function(record {} result) {
+    error? obj = resultStream.forEach(function(record {} result) {
         jsonSFAccounts.push(result.toJson());
     });
 
-    if (e is error) {
-        return e;
+    if obj is error {
+        return obj;
     }
 
     return jsonSFAccounts;
@@ -38,12 +38,12 @@ public function getSFOpportunitiesWithFilter(DatePeriodFilterCriteria datePeriod
 
     stream<record {}, error?> resultStream = mysqlClientSalesforce->query(getSFOpportunitiesWithFilterQuery(datePeriodRecord, action));
 
-    error? e = resultStream.forEach(function(record {} result) {
+    error? obj = resultStream.forEach(function(record {} result) {
         jsonSFOpportunities.push(result.toJson());
     });
 
-    if (e is error) {
-        return e;
+    if obj is error {
+        return obj;
     }
 
     return jsonSFOpportunities;
@@ -55,12 +55,12 @@ public function getSFBookingSummariesPerGivenPeriod(DatePeriodFilterCriteria dat
 
     stream<record {}, error?> resultStream = mysqlClientSalesforce->query(getSFBookingQuery(datePeriodRecord));
 
-    error? e = resultStream.forEach(function(record {} result) {
+    error? obj = resultStream.forEach(function(record {} result) {
         jsonBookingSummary = result.toJson();
     });
 
-    if (e is error) {
-        return e;
+    if obj is error {
+        return obj;
     }
 
     return jsonBookingSummary;

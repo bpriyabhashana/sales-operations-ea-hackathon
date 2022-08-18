@@ -26,7 +26,7 @@ final mysql:Client mysqlClientSalesforce = check new (host = dbHost,
                                     database = dbName,
                                     port = dbPort);
 
-function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
+isolated function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
     string directQuery = string `{
                 sumOfIncomeAccounts(filterCriteria: {
                     range : {
@@ -56,7 +56,7 @@ function getSumOfIncomeAccounts(DatePeriodFilterCriteria filterCriteria) returns
     }
 }
 
-function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
+isolated function getSumOfExpenseAccounts(DatePeriodFilterCriteria filterCriteria) returns json|error {
     string directQuery = string `{
                 sumOfExpenseAccounts(filterCriteria: {
                     range : {
