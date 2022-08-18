@@ -20,7 +20,7 @@ function getSFOpportunitiesWithFilterQuery(DatePeriodFilterCriteria datePeriodRe
 
     sql:ParameterizedQuery query = ``;
 
-    if (action == "getOpportunities") {
+    if (action == GET_OPPORTUNITIES) {
         query = `SELECT o.AccountId, 
                         o.ARR__c, 
                         o.IAM_ARR__c, 
@@ -42,7 +42,7 @@ function getSFOpportunitiesWithFilterQuery(DatePeriodFilterCriteria datePeriodRe
                           o.PS_Support_Account_End_Date_Roll_Up__c >= ${datePeriodRecord.endDate})
                        )`;
 
-    } else if (action == "getOpportunitiesDelayed") {
+    } else if (action == GET_OPPORTUNITIES_DELAYED) {
         query = `SELECT o.AccountId, 
                         o.Delayed_ARR__c, 
                         o.IAM_Delayed_ARR__c, 
@@ -72,7 +72,7 @@ function getSFOpportunitiesWithFilterQuery(DatePeriodFilterCriteria datePeriodRe
 }
 
 function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns sql:ParameterizedQuery {
-    return `SELECT "openingARR" as arr_type, 
+    return `SELECT ${OPENING_ARR} as arr_type, 
                    SUM(ARR__c) AS amount,
                    SUM(IAM_ARR__c) AS amount_iam, 
                    SUM(Integration_ARR__c) AS amount_intsw
@@ -83,10 +83,10 @@ function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) retu
                   PS_Support_Account_End_Date_Roll_Up__c >= ${datePeriodRecord.startDate} AND 
                   IsInSF = 1
             UNION
-            SELECT "closingARR" as arr_type, 
-                   SUM(ARR__c) AS amount,
-                   SUM(IAM_ARR__c) AS amount_iam, 
-                   SUM(Integration_ARR__c) AS amount_intsw
+            SELECT ${CLOSING_ARR} as arr_type, 
+                   SUM(ARR__c) AS ${ARR_AMOUNT},
+                   SUM(IAM_ARR__c) AS ${BU1_AMOUNT}, 
+                   SUM(Integration_ARR__c) AS ${BU2_AMOUNT}
             FROM arr_sf_opportunity 
             WHERE ARR__c > 0 AND 
                   StageName = "50 - Closed Won" AND 
@@ -94,10 +94,10 @@ function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) retu
                   PS_Support_Account_End_Date_Roll_Up__c >= ${datePeriodRecord.endDate} AND 
                   IsInSF = 1
             UNION
-            SELECT "cloudARR" as arr_type, 
-                   SUM(CL_ARR_Today__c) AS amount,
-                   0 AS amount_iam, 
-                   SUM(CL_ARR_Today__c) AS amount_intsw
+            SELECT ${CLOUD_ARR} as arr_type, 
+                   SUM(CL_ARR_Today__c) AS ${ARR_AMOUNT},
+                   0 AS ${BU1_AMOUNT}, 
+                   SUM(CL_ARR_Today__c) AS ${BU2_AMOUNT}
             FROM arr_sf_opportunity
             WHERE CL_ARR_Today__c > 0 AND
                   StageName = "50 - Closed Won" AND 
@@ -105,10 +105,10 @@ function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) retu
                   CL_End_Date_Roll_Up__c >= ${datePeriodRecord.endDate} AND 
                   IsInSF = 1
             UNION
-            SELECT "openingARRDelayed" as arr_type, 
-                SUM(Delayed_ARR__c) AS amount,
-                SUM(IAM_Delayed_ARR__c) AS amount_iam, 
-                SUM(Integration_Delayed__c) AS amount_intsw
+            SELECT ${OPENING_ARR_DELAYED} as arr_type, 
+                SUM(Delayed_ARR__c) AS ${ARR_AMOUNT},
+                SUM(IAM_Delayed_ARR__c) AS ${BU1_AMOUNT}, 
+                SUM(Integration_Delayed__c) AS ${BU2_AMOUNT}
             FROM arr_sf_opportunity 
             WHERE Delayed_ARR__c > 0 AND 
                 Renewal_Delayed__c = 1 AND 
@@ -120,10 +120,10 @@ function getSFARRForAGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) retu
                 PS_End_Date_Roll_Up__c >= ${datePeriodRecord.startDate} AND 
                 IsInSF = 1
             UNION
-            SELECT "closingARRDelayed" as arr_type, 
-                SUM(Delayed_ARR__c) AS amount,
-                SUM(IAM_Delayed_ARR__c) AS amount_iam, 
-                SUM(Integration_Delayed__c) AS amount_intsw
+            SELECT ${CLOSING_ARR_DELAYED} as arr_type, 
+                SUM(Delayed_ARR__c) AS ${ARR_AMOUNT},
+                SUM(IAM_Delayed_ARR__c) AS ${BU1_AMOUNT}, 
+                SUM(Integration_Delayed__c) AS ${BU2_AMOUNT}
             FROM arr_sf_opportunity 
             WHERE Delayed_ARR__c > 0 AND 
                 Renewal_Delayed__c = 1 AND 

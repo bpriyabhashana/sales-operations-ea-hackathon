@@ -200,7 +200,7 @@ function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriod
     }
 
     // 2. Loop list of opportunities for a given criteria and update Accounts Map with relevant ARR values
-    json[] resultsSFOpportunities = check getSFOpportunitiesWithFilter(datePeriodRecord, "getOpportunities");
+    json[] resultsSFOpportunities = check getSFOpportunitiesWithFilter(datePeriodRecord, GET_OPPORTUNITIES);
     foreach var k in resultsSFOpportunities {
         SFOpportunityRespRecord sfOpportunityRespRecord = check k.cloneWithType(SFOpportunityRespRecord);
         if (sfAccountsMap[sfOpportunityRespRecord.AccountId] != ()) {
@@ -238,7 +238,7 @@ function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriod
     }
 
     // 3. Loop list of DELAYED opportunities for a given criteria and update Accounts Map with relevant ARR values
-    json[] resultsSFDelayedOpportunities = check getSFOpportunitiesWithFilter(datePeriodRecord, "getOpportunitiesDelayed");
+    json[] resultsSFDelayedOpportunities = check getSFOpportunitiesWithFilter(datePeriodRecord, GET_OPPORTUNITIES_DELAYED);
     foreach var k in resultsSFDelayedOpportunities {
         SFDelayedOpportunityRespRecord sfOpportunityRespRecord = check k.cloneWithType(SFDelayedOpportunityRespRecord);
         if (sfAccountsMap[sfOpportunityRespRecord.AccountId] != ()) {

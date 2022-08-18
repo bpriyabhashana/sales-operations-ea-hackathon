@@ -28,6 +28,14 @@ const CLOUD_ARR = "cloudARR";
 const OPENING_ARR_DELAYED = "openingARRDelayed";
 const CLOSING_ARR_DELAYED = "closingARRDelayed";
 
+# ARR amounts
+const ARR_AMOUNT = "amount";
+const BU1_AMOUNT = "amount_iam";
+const BU2_AMOUNT = "amount_intsw";
+
+# Opportunities type
+const GET_OPPORTUNITIES = "getOpportunities";
+const GET_OPPORTUNITIES_DELAYED = "getOpportunitiesDelayed";
 
 # Flash Report Sections
 # ARR
