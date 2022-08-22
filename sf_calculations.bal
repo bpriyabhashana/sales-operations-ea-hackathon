@@ -1,7 +1,7 @@
-function calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRecord) returns [json[], json[]]|error {
+function calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRecord) returns [BusinessUnitSummary[]?, BusinessUnitSummary[]]|error {
 
-    json[] arrRows = [];
-    json[] bookingRows = [];
+    BusinessUnitSummary[] arrRows = [];
+    BusinessUnitSummary[] bookingRows = [];
 
     decimal openingARRTotal = 0.00;
     decimal openingARRIAM = 0.00;
@@ -54,67 +54,75 @@ function calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRe
 
     arrRows = check formatArray([
         {
+            id: (),
             title: ARR_OPENING,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: openingARRIntSW,
             iam: openingARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: openingARRTotal
         },
         {
+             id: (),
             title: ARR_NEW,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: sfNewExpRedLostValueRecord.newARRIntegration,
             iam: sfNewExpRedLostValueRecord.newARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: sfNewExpRedLostValueRecord.newARRWSO2
         },
         {
+             id: (),
             title: ARR_EXPANSION,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: sfNewExpRedLostValueRecord.expansionARRIntegration,
             iam: sfNewExpRedLostValueRecord.expansionARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: sfNewExpRedLostValueRecord.expansionARRWSO2
         },
         {
+             id: (),
             title: ARR_REDUCTION,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: sfNewExpRedLostValueRecord.reductionARRIntegration,
             iam: sfNewExpRedLostValueRecord.reductionARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: sfNewExpRedLostValueRecord.reductionARRWSO2
         },
         {
+             id: (),
             title: ARR_LOST,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: sfNewExpRedLostValueRecord.lostARRIntegration,
             iam: sfNewExpRedLostValueRecord.lostARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: sfNewExpRedLostValueRecord.lostARRWSO2
         },
         {
+             id: (),
             title: ARR_CLOSING,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: closingARRIntSW,
             iam: closingARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: closingARRTotal
         },
         {
+             id: (),
             title: ARR_CLOUD,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: cloudARRIntSW,
             iam: cloudARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: cloudARRTotal
         },
         {
+             id: (),
             title: ARR_TOTAL_EXIT,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: totalExitARRIntSW,
             iam: totalExitARRIAM,
-            corporate: null,
+            corporate: (),
             wso2: totalExitARR
         }
     ]);
@@ -124,47 +132,59 @@ function calculateSalesforceARRAndBookings(DatePeriodFilterCriteria datePeriodRe
     SalesforceBookingSummaryResponseRecord sfBookingResp = check resultSFBookings.cloneWithType(SalesforceBookingSummaryResponseRecord);
     bookingRows = check formatArray([
         {
+             id: (),
             title: BOOKINGS_HEADING_TITLE,
-            integration_cl: null,
+            integration_cl: (),
             // Currently all cloud bookings are under Integration-Software
             integration_sw: sfBookingResp.Bookings_Integration_Recurring +
                         sfBookingResp.Bookings_Integration_Non_Recurring +
                         sfBookingResp.Bookings_Cloud_Total,
             iam: sfBookingResp.Bookings_IAM_Recurring +
                 sfBookingResp.Bookings_IAM_Non_Recurring,
-            corporate: null,
+            corporate: (),
             wso2: sfBookingResp.Bookings_Recurring_Total +
                 sfBookingResp.Bookings_Non_Recurring_Total +
                 sfBookingResp.Bookings_Cloud_Total
         },
         {
+             id: (),
             title: BOOKINGS_RECURRING_TITLE,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: sfBookingResp.Bookings_Integration_Recurring,
             iam: sfBookingResp.Bookings_IAM_Recurring,
-            corporate: null,
+            corporate: (),
             wso2: sfBookingResp.Bookings_Recurring_Total
         },
         {
+             id: (),
             title: BOOKINGS_CLOUD_TITLE,
-            integration_cl: null,
+            integration_cl: (),
             // Currently all cloud bookings are under Integration-Software
             integration_sw: sfBookingResp.Bookings_Cloud_Total,
-            iam: null,
-            corporate: null,
+            iam: (),
+            corporate: (),
             wso2: sfBookingResp.Bookings_Cloud_Total
         },
         {
+             id: (),
             title: BOOKINGS_NON_RECURRING_TITLE,
-            integration_cl: null,
+            integration_cl: (),
             integration_sw: sfBookingResp.Bookings_Integration_Non_Recurring,
             iam: sfBookingResp.Bookings_IAM_Non_Recurring,
-            corporate: null,
+            corporate: (),
             wso2: sfBookingResp.Bookings_Non_Recurring_Total
         }
     ]);
 
-    return [arrRows, bookingRows];
+    BusinessUnitSummary[]? arrPayload = 
+        from BusinessUnitSummary data in arrRows
+        select data;
+
+         BusinessUnitSummary[]? _ = 
+        from BusinessUnitSummary data in bookingRows
+        select data;
+
+    return [arrPayload, bookingRows];
 }
 
 function calculateSalesforceARRNewExpRedLost(DatePeriodFilterCriteria datePeriodRecord) returns SFNewExpRedLostValueRecord|error {

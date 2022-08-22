@@ -82,7 +82,7 @@ function calculateARRAndBookingsPerBUPerMonth(DatePeriodBuFilterCriteria datePer
         lostARRBU = sfNewExpRedLostValueRecord.lostARRIntegration;
     }
 
-    arrRows = check formatArray([
+    arrRows = check formatArrayRecords([
         {
         title: ARR_OPENING,
         value: openingARRBU
@@ -147,7 +147,7 @@ function calculateARRAndBookingsPerBUPerMonth(DatePeriodBuFilterCriteria datePer
         bookingsCloud = sfBookingResp.Bookings_Cloud_Total;
     }
 
-    bookingRows = check formatArray([
+    bookingRows = check formatArrayRecords([
         {
         title: BOOKINGS_HEADING_TITLE,
         value: bookingsTotalBU

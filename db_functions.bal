@@ -1,4 +1,4 @@
-public function getSFARRPerGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns json[]|error {
+public function getSFARRPerGivenPeriod(DatePeriodFilter datePeriodRecord) returns json[]|error {
 
     json[] jsonSFOpeningClosingARR = [];
 
@@ -15,7 +15,7 @@ public function getSFARRPerGivenPeriod(DatePeriodFilterCriteria datePeriodRecord
     return jsonSFOpeningClosingARR;
 }
 
-public function getSFAccountsWithFilter(DatePeriodFilterCriteria datePeriodRecord) returns json[]|error {
+public function getSFAccountsWithFilter(DatePeriodFilter datePeriodRecord) returns json[]|error {
 
     json[] jsonSFAccounts = [];
 
@@ -32,7 +32,7 @@ public function getSFAccountsWithFilter(DatePeriodFilterCriteria datePeriodRecor
     return jsonSFAccounts;
 }
 
-public function getSFOpportunitiesWithFilter(DatePeriodFilterCriteria datePeriodRecord, string action) returns json[]|error {
+public function getSFOpportunitiesWithFilter(DatePeriodFilter datePeriodRecord, string action) returns json[]|error {
 
     json[] jsonSFOpportunities = [];
 
@@ -49,7 +49,7 @@ public function getSFOpportunitiesWithFilter(DatePeriodFilterCriteria datePeriod
     return jsonSFOpportunities;
 }
 
-public function getSFBookingSummariesPerGivenPeriod(DatePeriodFilterCriteria datePeriodRecord) returns json|error {
+public function getSFBookingSummariesPerGivenPeriod(DatePeriodFilter datePeriodRecord) returns json|error {
 
     json jsonBookingSummary = {};
 

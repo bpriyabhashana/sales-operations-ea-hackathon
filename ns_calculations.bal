@@ -1,9 +1,9 @@
-isolated function calculateBalance(json income, json expense) returns [json[], json[], json[], json[]]|error {
+isolated function calculateBalance(json income, json expense) returns [BusinessUnitSummary[]?, BusinessUnitSummary[]?, BusinessUnitSummary[]?, BusinessUnitSummary[]?]|error {
 
-    json[] cosRows = [];
-    json[] revenueRows = [];
-    json[] gpRows = [];
-    json[] gmRows = [];
+    BusinessUnitSummary[] cosRows = [];
+    BusinessUnitSummary[] revenueRows = [];
+    BusinessUnitSummary[] gpRows = [];
+    BusinessUnitSummary[] gmRows = [];
 
     decimal revenueTotal = 0.00;
     decimal revenueTotalIAM = 0.00;
@@ -102,6 +102,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
 
     cosRows = check formatArray([
         {
+            id: (),
             title: COS_HEADING_TITLE,
             integration_cl: costOfSalesTotalINTCL,
             integration_sw: costOfSalesTotalINTSW,
@@ -110,6 +111,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: costOfSalesTotal
         },
         {
+            id: (),
             title: COS_RECURRING_TITLE,
             integration_cl: cosRecurringTotalINTCL,
             integration_sw: cosRecurringTotalINTSW,
@@ -118,6 +120,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: cosRecurringTotal
         },
         {
+            id: (),
             title: COS_NON_RECURRING_TITLE,
             integration_cl: cosNonRecurringTotalINTCL,
             integration_sw: cosNonRecurringTotalINTSW,
@@ -126,6 +129,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: cosNonRecurringTotal
         },
         {
+            id: (),
             title: COS_PUBLIC_CLOUD_TITLE,
             integration_cl: cosCloudTotalINTCL,
             integration_sw: cosCloudTotalINTSW,
@@ -204,6 +208,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
     revenueRows = check formatArray(
         [
         {
+            id: (),
             title: REVENUE_HEADING_TITLE,
             integration_cl: revenueTotalINTCL,
             integration_sw: revenueTotalINTSW,
@@ -212,6 +217,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: revenueTotal
         },
         {
+            id: (),
             title: REVENUE_RECURRING_TITLE,
             integration_cl: revenueRecurringTotalINTCL,
             integration_sw: revenueRecurringTotalINTSW,
@@ -220,6 +226,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: revenueRecurringTotal
         },
         {
+            id: (),
             title: REVENUE_NON_RECURRING_TITLE,
             integration_cl: revenueNonRecurringTotalINTCL,
             integration_sw: revenueNonRecurringTotalINTSW,
@@ -228,6 +235,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: revenueNonRecurringTotal
         },
         {
+            id: (),
             title: REVENUE_CLOUD_TITLE,
             integration_cl: revenueCloudTotalINTCL,
             integration_sw: revenueCloudTotalINTSW,
@@ -240,6 +248,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
 
     gpRows = check formatArray([
         {
+            id: (),
             title: GP_HEADING_TITLE,
             integration_cl: revenueTotalINTCL - costOfSalesTotalINTCL,
             integration_sw: revenueTotalINTSW - costOfSalesTotalINTSW,
@@ -248,6 +257,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: revenueTotal - costOfSalesTotal
         },
         {
+            id: (),
             title: GP_RECURRING_TITLE,
             integration_cl: revenueRecurringTotalINTCL - cosRecurringTotalINTCL,
             integration_sw: revenueRecurringTotalINTSW - cosRecurringTotalINTSW,
@@ -256,6 +266,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: revenueRecurringTotal - cosRecurringTotal
         },
         {
+            id: (),
             title: GP_NON_RECURRING_TITLE,
             integration_cl: revenueNonRecurringTotalINTCL - cosNonRecurringTotalINTCL,
             integration_sw: revenueNonRecurringTotalINTSW - cosNonRecurringTotalINTSW,
@@ -264,6 +275,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: revenueNonRecurringTotal - cosNonRecurringTotal
         },
         {
+            id: (),
             title: GP_PUBLIC_CLOUD_TITLE,
             integration_cl: revenueCloudTotalINTCL - cosCloudTotalINTCL,
             integration_sw: revenueCloudTotalINTSW - cosCloudTotalINTSW,
@@ -275,6 +287,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
 
     gmRows = check formatArray([
         {
+            id: (),
             title: GM_HEADING_TITLE,
             integration_cl: calculateGrossMargin(revenueTotalINTCL, costOfSalesTotalINTCL),
             integration_sw: calculateGrossMargin(revenueTotalINTSW, costOfSalesTotalINTSW),
@@ -283,6 +296,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: calculateGrossMargin(revenueTotal, costOfSalesTotal)
         },
         {
+            id: (),
             title: GM_RECURRING_TITLE,
             integration_cl: calculateGrossMargin(revenueRecurringTotalINTCL, cosRecurringTotalINTCL),
             integration_sw: calculateGrossMargin(revenueRecurringTotalINTSW, cosRecurringTotalINTSW),
@@ -291,6 +305,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: calculateGrossMargin(revenueRecurringTotal, cosRecurringTotal)
         },
         {
+            id: (),
             title: GM_NON_RECURRING_TITLE,
             integration_cl: calculateGrossMargin(revenueNonRecurringTotalINTCL, cosNonRecurringTotalINTCL),
             integration_sw: calculateGrossMargin(revenueNonRecurringTotalINTSW, cosNonRecurringTotalINTSW),
@@ -299,6 +314,7 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
             wso2: calculateGrossMargin(revenueNonRecurringTotal, cosNonRecurringTotal)
         },
         {
+            id: (),
             title: GM_PUBLIC_CLOUD_TITLE,
             integration_cl: calculateGrossMargin(revenueCloudTotalINTCL, cosCloudTotalINTCL),
             integration_sw: calculateGrossMargin(revenueCloudTotalINTSW, cosCloudTotalINTSW),
@@ -308,7 +324,23 @@ isolated function calculateBalance(json income, json expense) returns [json[], j
         }
     ]);
 
-    return [revenueRows, cosRows, gpRows, gmRows];
+     BusinessUnitSummary[]? revenuePayload = 
+        from BusinessUnitSummary data in revenueRows
+        select data;
+
+        BusinessUnitSummary[]? cosPayload = 
+        from BusinessUnitSummary data in cosRows
+        select data;
+
+         BusinessUnitSummary[]? gpPayload = 
+        from BusinessUnitSummary data in gpRows
+        select data;
+
+         BusinessUnitSummary[]? gmPayload = 
+        from BusinessUnitSummary data in gmRows
+        select data;
+
+    return [revenuePayload, cosPayload, gpPayload, gmPayload];
 
 }
 

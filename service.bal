@@ -1,29 +1,38 @@
-import ballerina/http;
+import ballerina/graphql;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service / on new http:Listener(9090) {
 
-    # A resource for generating greetings
-    # + return - formatted http response
-    resource function get balanceStatement(string startDate, string endDate)
-                                            returns http:Ok|http:BadRequest|error {
-        DatePeriodFilterCriteria payload = {
-            startDate: startDate,
-            endDate: endDate
-        };
-        return getBalanceStatement(payload);
+service graphql:Service /graphql on new graphql:Listener(9090) {
+
+    resource function get balanceStatement(DatePeriodFilterCriteria filterCriteria) returns BalanceStatement|error {
+
+        return check getBalanceStatement(filterCriteria);
+
     }
 
-    resource function get arrAndBookingsPerBuPerMonth(string businessUnit, string startDate, string endDate)
-                                            returns http:Ok|http:BadRequest|error {
-        DatePeriodBuFilterCriteria payload = {
-            businessUnit: businessUnit,
-            period: {
-                startDate: startDate,
-                endDate: endDate
-            }
-        };
-        return getArrAndBookingsPerBuPerMonth(payload);
-    }
 }
+
+
+
+// import ballerina/graphql;
+
+// # A service representing a network-accessible API
+// # bound to port `9090`.
+// service /graphql on new graphql:Listener(9090) {
+
+//      resource function get balanceStatement(string tresrt) returns BalanceStatement[]|error? {
+
+//         return [];
+//     }
+
+//     // resource function get arrAndBookingsPerBuPerMonth(string businessUnit, string startDate, string endDate)
+//     //                                         returns http:Ok|http:BadRequest|error {
+//     //     DatePeriodBuFilterCriteria payload = {
+//     //         businessUnit: businessUnit,
+//     //         period: {
+//     //             startDate: startDate,
+//     //             endDate: endDate
+//     //         }
+//     //     };
+//     //     return getArrAndBookingsPerBuPerMonth(payload);
+//     // }
+// }

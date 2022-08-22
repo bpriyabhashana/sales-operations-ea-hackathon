@@ -117,7 +117,16 @@ public isolated function getHTTPBadRequestResponse(error err) returns http:BadRe
     };
 }
 
-public isolated function formatArray(json[] array) returns json[]|error {
+public isolated function formatArray(BusinessUnitSummary[] array) returns BusinessUnitSummary[]|error {
+    foreach int i in 1 ..< array.length() + 1 {
+        // array[i - 1] = check array[i - 1].mergeJson({id: i.toString().cloneWithType(BusinessUnitSummary)});
+        array[i - 1].id = i.toString();
+    }
+    return array;
+}
+
+
+public isolated function formatArrayRecords(json[] array) returns json[]|error {
     foreach int i in 1 ..< array.length() + 1 {
         array[i - 1] = check array[i - 1].mergeJson({id: i.toString()});
     }

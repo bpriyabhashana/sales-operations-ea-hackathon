@@ -1,11 +1,17 @@
 // ------ filter criteria ------
 
-public type DatePeriodFilterCriteria record {
+type DatePeriodFilterCriteria record {
     string startDate;
     string endDate;
 };
 
-public type DatePeriodBuFilterCriteria record {
+
+public type DatePeriodFilter record {
+    string startDate;
+    string endDate;
+};
+
+type DatePeriodBuFilterCriteria record {
     string businessUnit;
     DatePeriodFilterCriteria period;
 };
@@ -93,3 +99,25 @@ public type SumOfIncomeAccountData record {
     string businessUnit;
     decimal balance;
 };
+
+// --------- record mapping --------
+
+ type BalanceStatement record {
+                BusinessUnitSummary[]? arr;
+                BusinessUnitSummary[]? bookings;
+                BusinessUnitSummary[]? revenue;
+                BusinessUnitSummary[]? costOfSales;
+                BusinessUnitSummary[]? grossProfit;
+                BusinessUnitSummary[]? grossMargin;
+ };
+
+ public type BusinessUnitSummary record {
+     string? id;
+     string? title;
+     decimal|string? corporate;
+     decimal|string? iam;
+     decimal|string? integration_cl;
+     decimal|string? integration_sw;
+     decimal|string? wso2;
+ };
+
